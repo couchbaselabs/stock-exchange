@@ -67,29 +67,11 @@ def add_stocks():
         stock_key = "stock:" + stock_doc['symbol']
         symbol_list.append(stock_key)
         SDK_CLIENT.upsert(stock_key, stock_doc)
-    SDK_CLIENT.upsert("company_list", {"symbols": symbol_list})
+    SDK_CLIENT.upsert(settings.PRODUCT_LIST, {"symbols": symbol_list})
 
-def add_products():
-    SDK_CLIENT.upsert(LIST_DOC, list_doc)
-
-    i = 12000
-    items = []
-    for product in PRODUCTS:
-        product_id = "product:" + product['name'] 
-        items.append(product_id)
-        product['type'] = "product"
-        product['complete'] = False
-        product['price'] = round(random.uniform(0.25, 4.99), 2)
-        product['createdAt'] = i
-        i += 1
-        product['product'] = product['name'] 
-        product['productList'] = {"id": LIST_DOC, "owner": "david"}
-        SDK_CLIENT.upsert(product_id, product)
-    SDK_CLIENT.upsert("items", {"items": items})
 
 
 if __name__ == '__main__':
     add_stocks()
-#    add_products()
  #   check_and_create_view()
     print("Successfully populated dataset")

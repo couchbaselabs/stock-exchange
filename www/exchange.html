@@ -59,7 +59,7 @@
                         {% set foo = random.shuffle(keys) %}
                         {% for key in keys %}
                         <div class="col-md-3 col-sm-4 col-6 col-product">
-                            <button class="btn btn-primary btn-product {{ random.choice(['blue', 'lightblue', 'purple', 'red', 'green'])}}-bg" type="button" data-toggle="button" value="{{ key }}" title="{{ stocks[key].value['company'] }}">{{ stocks[key].value['symbol'] }}<br><img src="img/graph.png"></button>
+                            <button class="btn btn-primary btn-product {{ random.choice(['blue', 'lightblue', 'purple', 'red', 'green'])}}-bg" type="button" data-toggle="button" value="{{ key }}" title="{{ stocks[key].value['company'] }}">{{ stocks[key].value['symbol'] }}<br>{{ stocks[key].value['price'] }}<br><img src="img/graph.png"></button>
                         </div>
                         {% end %}
 

@@ -124,7 +124,7 @@ class LiveOrdersWebSocket(tornado.websocket.WebSocketHandler):
 class ExchangeHandler(tornado.web.RequestHandler):
     @tornado.gen.coroutine
     def get(self):
-        company_list = yield bucket.get("company_list")
+        company_list = yield bucket.get(settings.PRODUCT_LIST)
         stocks = yield bucket.get_multi(company_list.value['symbols'])
         self.render("www/exchange.html", stocks=stocks)
 
