@@ -174,18 +174,20 @@ $(document).ready(function(){
     });
 });
 
-window.onload = function ShopSocket(){
+window.onload = function ExchangePageWebSockets(){
+// One web socket to get the nodes statuses, another web socket to get the live price info
 
     if ("WebSocket" in window) {
         // Let us open a web socket
-        var ws = new WebSocket("ws://" + location.host + "/nodestatus");
-        ws.onopen = function() {
+        var nodes_ws = new WebSocket("ws://" + location.host + "/nodestatus");
+        var prices_ws = new WebSocket("ws://" + location.host + "/liveprices");
+        nodes_ws.onopen = function() {
             console.log("started");
             // Web Socket is connected, send data using send()
-            ws.send("Shop Socket Connected");
+            nodes_ws.send("Exchange Node Status Socket Connected");
         };
 
-        ws.onmessage = function (evt)
+        nodes_ws.onmessage = function (evt)
         {
             var msg = JSON.parse(evt.data);
             if (msg['fts']){
@@ -203,10 +205,29 @@ window.onload = function ShopSocket(){
 
         };
 
-        ws.onclose = function()
+        nodes_ws.onclose = function()
         {
             // websocket is closed.
-            setTimeout(function(){ShopSocket()}, 5000);
+            setTimeout(function(){ExchangePageWebSockets()}, 5000);
+        };
+
+
+        prices_ws.onopen = function() {
+            console.log("Live Prices started");
+            // Web Socket is connected, send data using send()
+            prices_ws.send("Live Prices Socket Connected");
+        };
+
+        prices_ws.onmessage = function (evt)
+        {
+            console.log("Live Prices received: "+msg)
+
+        };
+
+        prices_ws.onclose = function()
+        {
+            // websocket is closed.
+            setTimeout(function(){ExchangePageWebSockets()}, 5000);
         };
     }
     else
@@ -215,4 +236,3 @@ window.onload = function ShopSocket(){
         alert("WebSocket NOT supported by your Browser!");
     }
 };
-

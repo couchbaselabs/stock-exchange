@@ -48,21 +48,21 @@ class NodeStatusHandler(tornado.web.RequestHandler):
 
 class CBStatusWebSocket(tornado.websocket.WebSocketHandler):
     def open(self):
-        print self
+        self.NAME = "CB Status"
         if self not in socket_list:
             socket_list.append(self)
             self.red = 255
-            print("WebSocket opened")
+            print("{} WebSocket opened").format(self.NAME)
             self.callback = tornado.ioloop.PeriodicCallback(
                 self.get_node_status, 1000)
             self.callback.start()
             self.get_node_status()
 
     def on_message(self, message):
-        print "on_message received:" + message
+        print "{} received: {}".format(self.NAME, message)
 
     def on_close(self):
-        print("WebSocket closed")
+        print("{} WebSocket closed").format(self.NAME)
         self.callback.stop()
 
     def get_node_status(self):
@@ -76,18 +76,19 @@ class LiveOrdersWebSocket(tornado.websocket.WebSocketHandler):
         self.RECENT_ORDERS = deque(maxlen=50)
         self.NEXT_CUSTOMER = 0
         self.LATEST_TS = 0
+        self.NAME = "Live Orders"
         if self not in socket_list:
             socket_list.append(self)
-            print("WebSocket opened")
+            print("{} WebSocket opened").format(self.NAME)
             self.callback = tornado.ioloop.PeriodicCallback(self.send_orders,
                                                             5000)
             self.callback.start()
 
     def on_message(self, message):
-        print "on_message received:" + message
+        print "{} received: {}".format(self.NAME, message)
 
     def on_close(self):
-        print("WebSocket closed")
+        print("{} WebSocket closed").format(self.NAME)
         self.callback.stop()
 
     @tornado.gen.coroutine
@@ -120,6 +121,34 @@ class LiveOrdersWebSocket(tornado.websocket.WebSocketHandler):
                 yield tornado.gen.sleep(5)
                 self.callback.start()
 
+
+
+class LivePricesWebSocket(tornado.websocket.WebSocketHandler):
+    def open(self):
+        self.NAME = "Live Prices"
+        if self not in socket_list:
+            socket_list.append(self)
+            print("{} WebSocket opened").format(self.NAME)
+            self.callback = tornado.ioloop.PeriodicCallback(self.send_prices,
+                                                            5000)
+            self.callback.start()
+
+    def on_message(self, message):
+        print "{} received: {}".format(self.NAME, message)
+
+    def on_close(self):
+        print("{} WebSocket closed").format(self.NAME)
+        self.callback.stop()
+
+    @tornado.gen.coroutine
+    def send_prices(self):
+        print "TODO: Query latest prices"
+        results = yield bucket.n1qlQueryAll(
+        'SELECT symbol,price FROM {}'.format(bucket_name, ))
+
+        print results
+        self.write({'prices': results})
+        print "TODO: Send latest prices"
 
 class ExchangeHandler(tornado.web.RequestHandler):
     @tornado.gen.coroutine
@@ -212,6 +241,7 @@ def make_app():
         (r"/", ExchangeHandler),
         (r"/nodestatus", CBStatusWebSocket),
         (r"/liveorders", LiveOrdersWebSocket),
+        (r"/liveprices", LivePricesWebSocket),
         (r'/nodes', NodeStatusHandler),
         (r'/submit_order', SubmitHandler),
         (r'/search', SearchHandler),
