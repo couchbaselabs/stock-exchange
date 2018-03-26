@@ -19,14 +19,6 @@ SDK_CLIENT = Bucket('couchbase://{0}/{1}'.format(node, bucket_name),
 
 SDK_CLIENT.timeout = 15
 
-LIST_DOC = "david.all_the_products"
-
-
-# https://www.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=nasdaq&render=download
-
-
-
-
 def check_and_create_view():
     design_doc = {
         'views': {
@@ -49,10 +41,6 @@ def check_and_create_view():
         print (row)
 
 
-list_doc = {"type": "product-list", "owner": "david",
-            "name": "big fat shopping list"}
-
-
 def add_stocks():
     # https://www.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=nasdaq&render=download
     stocks_csv = open(settings.STOCKS_FILE,'r')
@@ -65,6 +53,8 @@ def add_stocks():
                       'company': entry['Name']
                     }
         stock_key = "stock:" + stock_doc['symbol']
+        if stock_doc['price'] =="n/a":
+            stock_doc['price'] = 9.99
         symbol_list.append(stock_key)
         SDK_CLIENT.upsert(stock_key, stock_doc)
     SDK_CLIENT.upsert(settings.PRODUCT_LIST, {"symbols": symbol_list})
@@ -73,5 +63,5 @@ def add_stocks():
 
 if __name__ == '__main__':
     add_stocks()
- #   check_and_create_view()
+    check_and_create_view()
     print("Successfully populated dataset")

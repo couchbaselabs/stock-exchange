@@ -144,10 +144,11 @@ class LivePricesWebSocket(tornado.websocket.WebSocketHandler):
     def send_prices(self):
         print "TODO: Query latest prices"
         results = yield bucket.n1qlQueryAll(
-        'SELECT symbol,price FROM {}'.format(bucket_name, ))
-
-        print results
-        self.write({'prices': results})
+        'SELECT symbol,price FROM {} WHERE symbol IS NOT MISSING AND price IS NOT MISSING'.format(bucket_name, ))
+        final_results = []
+        for row in results:
+            final_results.append( (row['symbol'], float(row['price'])) )
+        self.write_message({'prices': final_results})
         print "TODO: Send latest prices"
 
 class ExchangeHandler(tornado.web.RequestHandler):

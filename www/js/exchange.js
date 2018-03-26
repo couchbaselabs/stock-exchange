@@ -181,6 +181,7 @@ window.onload = function ExchangePageWebSockets(){
         // Let us open a web socket
         var nodes_ws = new WebSocket("ws://" + location.host + "/nodestatus");
         var prices_ws = new WebSocket("ws://" + location.host + "/liveprices");
+
         nodes_ws.onopen = function() {
             console.log("started");
             // Web Socket is connected, send data using send()
@@ -208,7 +209,7 @@ window.onload = function ExchangePageWebSockets(){
         nodes_ws.onclose = function()
         {
             // websocket is closed.
-            setTimeout(function(){ExchangePageWebSockets()}, 5000);
+            // setTimeout(function(){ExchangePageWebSockets()}, 5000);
         };
 
 
@@ -220,14 +221,19 @@ window.onload = function ExchangePageWebSockets(){
 
         prices_ws.onmessage = function (evt)
         {
+            var msg = JSON.parse(evt.data);
             console.log("Live Prices received: "+msg)
-
+            for (i = 0; i < msg['prices'].length; i++){
+                sym = msg['prices'][i][0];
+                page_elem = "#" + sym;
+                $(page_elem).text(msg['prices'][i][1]);
+            }
         };
 
         prices_ws.onclose = function()
         {
             // websocket is closed.
-            setTimeout(function(){ExchangePageWebSockets()}, 5000);
+            // setTimeout(function(){ExchangePageWebSockets()}, 5000);
         };
     }
     else

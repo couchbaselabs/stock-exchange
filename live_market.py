@@ -1,5 +1,6 @@
 #!/usr/bin/env - python
 from couchbase.bucket import Bucket
+import couchbase.subdocument as SD
 import settings
 
 
@@ -16,10 +17,14 @@ SDK_CLIENT = Bucket('couchbase://{0}/{1}'.format(node, bucket_name),
 
 SDK_CLIENT.timeout = 15
 
-symbol_list =     SDK_CLIENT.get(settings.PRODUCT_LIST).value
 
-for entry in symbol_list['symbols']:
-    print (entry)
-    stock_doc = SDK_CLIENT.get(entry).value
-    stock_doc['price'] = float(stock_doc['price']) * 2
-    SDK_CLIENT.upsert(entry, stock_doc)
+while True:
+    print "."
+    results = SDK_CLIENT.n1ql_query(
+    'SELECT symbol,price FROM {} WHERE symbol IS NOT MISSING AND price IS NOT MISSING'.format(bucket_name, ))
+    for row in results:
+        stock_key = "stock:"+ (row['symbol'])
+        new_price = round ( (float(row['price']) * 1.5) ,2)
+        SDK_CLIENT.mutate_in(stock_key,
+                            SD.upsert('price', new_price))
+
