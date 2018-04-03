@@ -40,11 +40,20 @@ nodes = []
 n1ql_enabled = False
 xdcr_enabled = False
 
-
-class NodeStatusHandler(tornado.web.RequestHandler):
+class ExchangeHandler(tornado.web.RequestHandler):
+    @tornado.gen.coroutine
     def get(self):
-        self.render("www/index.html")
+        company_list = yield bucket.get(settings.PRODUCT_LIST)
+        stocks = yield bucket.get_multi(company_list.value['symbols'])
+        self.render("www/exchange.html", stocks=stocks)
 
+class LatestOrdersHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render("www/orders.html")
+
+class ClusterVisHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render("www/visualiser.html")
 
 class CBStatusWebSocket(tornado.websocket.WebSocketHandler):
     def open(self):
@@ -114,7 +123,7 @@ class LiveOrdersWebSocket(tornado.websocket.WebSocketHandler):
             display_order = self.RECENT_ORDERS[self.NEXT_CUSTOMER]
             msg = {"name": display_order['name'], "images": []}
             for prod in display_order['order']:
-                msg['images'].append("./img/" + cb_status.get_image_for_product(prod))
+                msg['images'].append("./img/graph.png")
             self.write_message(msg)
             if display_order['name'] == 'Couchbase Demo Phone' and self.NEXT_CUSTOMER == 0:
                 self.callback.stop()
@@ -142,21 +151,12 @@ class LivePricesWebSocket(tornado.websocket.WebSocketHandler):
 
     @tornado.gen.coroutine
     def send_prices(self):
-        print "TODO: Query latest prices"
         results = yield bucket.n1qlQueryAll(
         'SELECT symbol,price FROM {} WHERE symbol IS NOT MISSING AND price IS NOT MISSING'.format(bucket_name, ))
         final_results = []
         for row in results:
             final_results.append( (row['symbol'], float(row['price'])) )
         self.write_message({'prices': final_results})
-        print "TODO: Send latest prices"
-
-class ExchangeHandler(tornado.web.RequestHandler):
-    @tornado.gen.coroutine
-    def get(self):
-        company_list = yield bucket.get(settings.PRODUCT_LIST)
-        stocks = yield bucket.get_multi(company_list.value['symbols'])
-        self.render("www/exchange.html", stocks=stocks)
 
 
 class SubmitHandler(tornado.web.RequestHandler):
@@ -240,10 +240,11 @@ def update_cb_status():
 def make_app():
     return tornado.web.Application([
         (r"/", ExchangeHandler),
+        (r"/orders", LatestOrdersHandler),
         (r"/nodestatus", CBStatusWebSocket),
         (r"/liveorders", LiveOrdersWebSocket),
         (r"/liveprices", LivePricesWebSocket),
-        (r'/nodes', NodeStatusHandler),
+        (r'/cluster', ClusterVisHandler),
         (r'/submit_order', SubmitHandler),
         (r'/search', SearchHandler),
         (r'/filter', FilterHandler),
