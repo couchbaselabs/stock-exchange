@@ -46,7 +46,10 @@ def add_stocks():
     stocks_csv = open(settings.STOCKS_FILE,'r')
     stocks_dict = csv.DictReader(stocks_csv)
     symbol_list = []
+    stock_count = 0
     for entry in stocks_dict:
+        if stock_count >= settings.NUM_STOCKS:
+            break
         stock_doc = { 'symbol': entry['Symbol'],
                       'price' : entry['LastSale'],
                       'sector':  entry['Sector'],
@@ -55,8 +58,11 @@ def add_stocks():
         stock_key = "stock:" + stock_doc['symbol']
         if stock_doc['price'] =="n/a":
             stock_doc['price'] = 9.99
+        stock_doc['price'] = round (float(stock_doc['price']),2)
+        stock_doc['starting_price'] = stock_doc['price']
         symbol_list.append(stock_key)
         SDK_CLIENT.upsert(stock_key, stock_doc)
+        stock_count += 1
     SDK_CLIENT.upsert(settings.PRODUCT_LIST, {"symbols": symbol_list})
 
 

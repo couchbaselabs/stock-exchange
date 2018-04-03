@@ -19,5 +19,7 @@ DDOC_NAME = "orders"
 # Name of the view
 VIEW_NAME = "by_timestamp"
 # Doc containing all stocks. 
-# Single field called "items which is a list containing all product keys.
+# Single field called "symbols" which is a list containing all product keys.
 PRODUCT_LIST="stock_list"
+# How many stocks should we use?
+NUM_STOCKS=20

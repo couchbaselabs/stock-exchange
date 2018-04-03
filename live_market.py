@@ -2,6 +2,7 @@
 from couchbase.bucket import Bucket
 import couchbase.subdocument as SD
 import settings
+import random
 
 
 bucket_name = settings.BUCKET_NAME
@@ -24,7 +25,10 @@ while True:
     'SELECT symbol,price FROM {} WHERE symbol IS NOT MISSING AND price IS NOT MISSING'.format(bucket_name, ))
     for row in results:
         stock_key = "stock:"+ (row['symbol'])
-        new_price = round ( (float(row['price']) * 1.5) ,2)
+        # perturb the price and round it to 2 decimal places
+        price_multiplier = random.uniform (0.9,1.1)
+        new_price = float(row['price']) * price_multiplier
+        new_price = round (new_price, 2)
         SDK_CLIENT.mutate_in(stock_key,
                             SD.upsert('price', new_price))
 
