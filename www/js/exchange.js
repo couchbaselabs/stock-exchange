@@ -225,8 +225,19 @@ window.onload = function ExchangePageWebSockets(){
             console.log("Live Prices received: "+msg)
             for (i = 0; i < msg['prices'].length; i++){
                 sym = msg['prices'][i][0];
-                page_elem = "#" + sym;
-                $(page_elem).text(msg['prices'][i][1]);
+                price_elem = "#" + sym + "-price";
+                btn_elem = "#" + sym + "-btn";
+                cur_price = parseFloat( $(price_elem).text().substring(1) );
+                new_price = parseFloat(msg['prices'][i][1]);
+                if (new_price >= cur_price){
+                    $(btn_elem).removeClass("btn-danger");
+                    $(btn_elem).addClass("btn-success");
+                }
+                else {
+                    $(btn_elem).removeClass("btn-success");
+                    $(btn_elem).addClass("btn-danger");  
+                }
+                $(price_elem).text('$'+new_price);
             }
         };
 

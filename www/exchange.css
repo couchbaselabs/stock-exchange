@@ -22,108 +22,16 @@ img {
     padding-bottom: 30px;
 }
 
-.btn-product{
-    border: 2px solid rgba(235,73,113,1);
-    color: #fff;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 18px;
-    text-transform: capitalize;
-    background-color: rgba(235,73,113,1);
-    cursor: pointer;
-    display: inline-block;
-    letter-spacing: -0.025em;
-    outline: none;
-    position: relative;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    transition: all 0.3s;
-    white-space: normal;
-    word-wrap: break-word;
-    height:100%;
-    width:100%;
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: #222222;
+  vertical-align: middle;
 }
-
-.btn-product.active {
-    background-color: white;
-    border-color: white;
+.table td   {
+    vertical-align: middle;
 }
-
-.green-bg {
-    border-color: #00b9be;
-    background: #00b9be;
-}
-
-.green-bg:hover {
-    border: 2px solid #00b9be;
-    color: white;
-    background: linear-gradient(135deg, #00b9be 0%,white 100%);
-}
-
-.green-bg.active {
-    color: #00b9be;
-}
-
-.lightblue-bg {
-    border-color: #00abdf;
-    background: #00abdf;
-}
-
-.lightblue-bg:hover {
-    border: 2px solid #00abdf;
-    color: white;
-    background: linear-gradient(135deg, #00abdf 0%,white 100%);
-}
-
-.lightblue-bg.active {
-    color: #00abdf;
-}
-
-.blue-bg {
-    border-color: #0074e0;
-    background: #0074e0;
-}
-
-.blue-bg:hover {
-    border: 2px solid #0074e0;
-    background: linear-gradient(135deg, #0074e0 0%,white 100%);
-    color: white;
-}
-
-.blue-bg.active {
-    color: #0074e0;
-}
-
-.purple-bg {
-    border-color: #b36cdb;
-    background: #b36cdb;
-}
-
-.purple-bg:hover {
-    border: 2px solid #b36cdb;
-    background: linear-gradient(135deg, #b36cdb 0%,white 100%);
-    color: white;
-}
-
-.purple-bg.active {
-    color: #b36cdb;
-}
-
-.red-bg {
-    border-color: #eb4971;
-    background: #eb4971;
-}
-
-.red-bg:hover {
-    border: 2px solid #eb4971;
-    background: linear-gradient(135deg, #eb4971 0%,white 100%);
-    color: white;
-}
-
-.red-bg.active{
-    color: #eb4971;
-}
-
+.table th {
+    background-color:  #222222;
+} 
 .products {
     padding-top: 10px;
     padding-bottom: 10px;
