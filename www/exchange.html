@@ -69,6 +69,8 @@
                           </thead>
                         {% for key in keys %}
                         <tr>
+                           <td> <button class="btn btn-primary btn-product {{ random.choice(['blue', 'lightblue', 'purple', 'red', 'green'])}}-bg" type="button" data-toggle="button" value="{{ key }}" title="{{ stocks[key].value['company'] }}">
+                                BUY</button></td>
                            <td class="text-left" scope="row">{{stocks[key].value['symbol']}}</td>
                            <td id="{{stocks[key].value['symbol']}}-price" class="text-right">${{ stocks[key].value['price'] }}</td>
                            <td><button id={{stocks[key].value['symbol']}}-btn type="button" class="btn btn-success">+7%</button></td>
