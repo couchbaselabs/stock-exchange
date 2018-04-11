@@ -39,6 +39,7 @@ fts_enabled = False
 nodes = []
 n1ql_enabled = False
 xdcr_enabled = False
+price_data = {}
 
 class ExchangeHandler(tornado.web.RequestHandler):
     @tornado.gen.coroutine
@@ -144,12 +145,7 @@ class LivePricesWebSocket(tornado.websocket.WebSocketHandler):
 
     @tornado.gen.coroutine
     def send_prices(self):
-        results = yield bucket.n1qlQueryAll(
-        'SELECT symbol,price FROM {} WHERE symbol IS NOT MISSING AND price IS NOT MISSING'.format(bucket_name, ))
-        final_results = []
-        for row in results:
-            final_results.append( (row['symbol'], float(row['price'])) )
-        self.write_message({'prices': final_results})
+        self.write_message(price_data)
 
 
 class SubmitHandler(tornado.web.RequestHandler):
@@ -229,6 +225,20 @@ def update_cb_status():
         fts_enabled = yield cb_status.fts_enabled()
         yield tornado.gen.sleep(0.5)
 
+@tornado.gen.coroutine
+def update_price_data():
+    global price_data
+    while True:
+        call_time = time.time()
+        results = yield bucket.n1qlQueryAll(
+        'SELECT symbol,price FROM {} WHERE symbol IS NOT MISSING AND price IS NOT MISSING'.format(bucket_name, ))
+        result_time = time.time()
+        response_time = result_time - call_time
+        final_results = []
+        for row in results:
+            final_results.append( (row['symbol'], float(row['price'])) )
+        price_data = {'prices': final_results}
+        yield tornado.gen.sleep(5 - response_time)
 
 def make_app():
     return tornado.web.Application([
@@ -252,4 +262,5 @@ if __name__ == "__main__":
     app.listen(8888)
 
     tornado.ioloop.IOLoop.current().spawn_callback(update_cb_status)
+    tornado.ioloop.IOLoop.current().spawn_callback(update_price_data)
     tornado.ioloop.IOLoop.current().start()
