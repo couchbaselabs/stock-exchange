@@ -16,18 +16,27 @@
 
 
 <body>
+  <div class="container">
+    <h2>Latest Investors</h2>
+      <div class="slider multiple-items">
+        <div class="order-card front orange-gradient" id="master-slide">
+          <h3 id="slide-1" class="text-center">Ready For Investors!</h3>
+            <table id="stocks_table" class="table table-hover table-dark">
+            {% for i in range(5) %}
+            <tr>
+               <td class="text-left" scope="row">SYMBOL</td>
+               <td><button  type="button" class="btn btn-success">+0%</button></td>
+            </tr>
+            {% end %}
+            <tr>
+               <td class="text-left" scope="row">TOTAL</td>
+               <td><h2 class="text-center">$600</h2></td>
+            </tr>
+            </table>
+        </div>
+      </div>
 
-                <div class="container">
-    <h2>New Investors</h2>
-                <div class="slider multiple-items">
-            <div class="order-card front orange-gradient" id="master-slide"><h3 id="slide-1" class="text-center">Ready For Investors!</h3>
-    </div>
-
-       <!--  -->
-            </div>
-
-
-</div> <!-- /container -->
+  </div> <!-- /container -->
 
 
 

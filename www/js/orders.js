@@ -11,17 +11,16 @@ window.onload = function N1QLSocket(){
 
         ws.onmessage = function (evt)
         {
-             console.log(slideIndex);
-             var new_elem = $('#master-slide').clone();
+            $(document).find("td").text("HEY HEY");
+            console.log(slideIndex);
+            var new_elem = $('#master-slide').clone();
             var msg = JSON.parse(evt.data);
             images=msg['images']
             new_elem.attr('id',slideIndex);
             slideIndex++;
-                $(new_elem).find("h3").text(msg['name']);
+            $(new_elem).find("h3").text(msg['name']);
             $('.multiple-items').slick('slickAdd',new_elem);
             $('.multiple-items').slick('slickNext');
-
-     
         };
 
         ws.onclose = function()

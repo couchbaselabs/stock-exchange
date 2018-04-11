@@ -108,19 +108,12 @@ class LiveOrdersWebSocket(tornado.websocket.WebSocketHandler):
         new_order = False
         for order in res:
             new_order = True
-            self.RECENT_ORDERS.appendleft(order.doc.value)
+            self.RECENT_ORDERS.append(order.doc.value)
+            self.LATEST_TS = order.doc.value['ts'] + 1
             print order.key, order.doc.value['name']
 
-        if new_order:
-            self.NEXT_CUSTOMER = 0  # back to the start
-            self.LATEST_TS = self.RECENT_ORDERS[0]['ts'] + 1
-        elif self.NEXT_CUSTOMER >= (len(self.RECENT_ORDERS) - 1):
-            self.NEXT_CUSTOMER = 0  # back to the start
-        else:
-            self.NEXT_CUSTOMER += 1
-
         if len(self.RECENT_ORDERS) > 0:
-            display_order = self.RECENT_ORDERS[self.NEXT_CUSTOMER]
+            display_order = self.RECENT_ORDERS.pop()
             msg = {"name": display_order['name'], "images": []}
             for prod in display_order['order']:
                 msg['images'].append("./img/graph.png")
