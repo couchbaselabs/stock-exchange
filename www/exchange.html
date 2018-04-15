@@ -73,7 +73,7 @@
                            <td> <button class="btn btn-primary btn-product {{ random.choice(['blue', 'lightblue', 'purple', 'red', 'green'])}}-bg" type="button" data-toggle="button" value="{{ key }}" title="{{ stocks[key].value['company'] }}">
                                 BUY</button></td>
                            <td class="text-left" scope="row">{{stocks[key].value['symbol']}}</td>
-                           <td id="{{stocks[key].value['symbol']}}-price" class="text-right">${{ stocks[key].value['price'] }}</td>
+                           <td class="text-right {{stocks[key].value['symbol']}}-price">${{ stocks[key].value['price'] }}</td>
                            <td><button id={{stocks[key].value['symbol']}}-btn type="button" class="btn btn-success">+7%</button></td>
                         </tr>
                         {% end %}
@@ -107,5 +107,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 <script src="js/exchange.js"></script>
+<script src="js/live_prices.js"></script>
 </body>
 </html>

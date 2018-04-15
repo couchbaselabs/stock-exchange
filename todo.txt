@@ -1,0 +1,16 @@
+TODO LIST
+---------
+* Populate Order Page with Actual Selections and Prices
+* Record Purchase Price at Time of Order
+* Order Page to Receive Live Updates + Calculate New Total
+* Investment Leaderboard Page
+* Stock Leaderboard Page
+* Create Individual User Page
+* Consistent Framework / Nav Bar across all Pages
+* Incorporate K8s
+* Create pre-flight check script to check for (autofailover, indexes, node types, data_set, mobile_data)
+* Refresh Visualiser (remove node icons?)
+* Mobile App: Portfolio Page
+* Mobile App: differentiate online / offline
+* Mobile App: Phone App
+* Mobile App: "delete content" startup button

@@ -11,13 +11,21 @@ window.onload = function N1QLSocket(){
 
         ws.onmessage = function (evt)
         {
-            $(document).find("td").text("HEY HEY");
-            console.log(slideIndex);
+          //  $(document).find("td").text("HEY HEY");
             var new_elem = $('#master-slide').clone();
             var msg = JSON.parse(evt.data);
-            images=msg['images']
+            var order = msg['order'];
             new_elem.attr('id',slideIndex);
             slideIndex++;
+            for (i = 0; i <5; i++ )
+            {
+                var row_elem = $(new_elem).find("#stock-" + i);
+                symbol_name = msg['order'][i]['symbol'];
+                purchase_price = msg['order'][i]['purchase_price'];
+                row_elem.find(".symbol").text(symbol_name);
+                row_elem.find(".purchase").text('$'+purchase_price);
+                row_elem.find(".price").addClass(symbol_name + '-price');
+            }
             $(new_elem).find("h3").text(msg['name']);
             $('.multiple-items').slick('slickAdd',new_elem);
             $('.multiple-items').slick('slickNext');

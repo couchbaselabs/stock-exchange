@@ -52,6 +52,10 @@ class LatestOrdersHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("www/orders.html")
 
+class StockLeaderboardHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render("www/stock_performance.html")
+
 class ClusterVisHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("www/visualiser.html")
@@ -115,14 +119,46 @@ class LiveOrdersWebSocket(tornado.websocket.WebSocketHandler):
 
         if len(self.RECENT_ORDERS) > 0:
             display_order = self.RECENT_ORDERS.pop()
-            msg = {"name": display_order['name'], "images": []}
-            for prod in display_order['order']:
-                msg['images'].append("./img/graph.png")
+            msg = {"name": display_order['name'], "order": display_order['order']}
             self.write_message(msg)
             if display_order['name'] == 'Couchbase Demo Phone' and self.NEXT_CUSTOMER == 0:
                 self.callback.stop()
                 yield tornado.gen.sleep(5)
                 self.callback.start()
+
+class StockLeaderboardWebSocket(tornado.websocket.WebSocketHandler):
+    def open(self):
+        self.NAME = "Stock Leaderboard"
+        if self not in socket_list:
+            socket_list.append(self)
+            print("{} WebSocket opened").format(self.NAME)
+            self.callback = tornado.ioloop.PeriodicCallback(self.send_leaderboard,
+                                                            5000)
+            self.callback.start()
+
+    def on_message(self, message):
+        print "{} received: {}".format(self.NAME, message)
+
+    def on_close(self):
+        print("{} WebSocket closed").format(self.NAME)
+        self.callback.stop()
+
+    @tornado.gen.coroutine
+    def send_leaderboard(self):
+        base_query = 'SELECT price_diff,symbol,starting_price,price from {} \
+         LET price_diff = 100 * ((price - starting_price))/starting_price \
+         WHERE starting_price is not MISSING \
+         ORDER BY price_diff {} \
+         LIMIT 10'
+        best_results = yield bucket.n1qlQueryAll(base_query.format(bucket_name, "DESC"))
+        good_performers = []
+        for row in best_results:
+            good_performers.append(row)
+        worst_results = yield bucket.n1qlQueryAll(base_query.format(bucket_name, ""))
+        poor_performers = []
+        for row in worst_results:
+            poor_performers.append(row)
+        self.write_message({"best": good_performers, "worst": poor_performers})
 
 
 
@@ -163,6 +199,12 @@ class SubmitHandler(tornado.web.RequestHandler):
                                      datetime.datetime.utcnow().isoformat())
         data['ts'] = int(time.time())
         data['type'] = "order"
+        order = []
+        for i in range (0,5):
+            stock = data['order'][i];
+            d = {'symbol': stock[6:], 'purchase_price': price_data[stock[6:]] }
+            order.append(d)
+        data['order'] = order
         yield bucket.upsert(key, data)
 
 
@@ -234,19 +276,20 @@ def update_price_data():
         'SELECT symbol,price FROM {} WHERE symbol IS NOT MISSING AND price IS NOT MISSING'.format(bucket_name, ))
         result_time = time.time()
         response_time = result_time - call_time
-        final_results = []
+        final_results = {}
         for row in results:
-            final_results.append( (row['symbol'], float(row['price'])) )
-        price_data = {'prices': final_results}
+            price_data[row['symbol']] = float(row['price'])
         yield tornado.gen.sleep(5 - response_time)
 
 def make_app():
     return tornado.web.Application([
         (r"/", ExchangeHandler),
         (r"/orders", LatestOrdersHandler),
+        (r"/stocks", StockLeaderboardHandler),
         (r"/nodestatus", CBStatusWebSocket),
         (r"/liveorders", LiveOrdersWebSocket),
         (r"/liveprices", LivePricesWebSocket),
+        (r"/stockleaderboard", StockLeaderboardWebSocket),
         (r'/cluster', ClusterVisHandler),
         (r'/submit_order', SubmitHandler),
         (r'/search', SearchHandler),

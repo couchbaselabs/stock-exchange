@@ -17,29 +17,48 @@
 
 <body>
   <div class="container">
-    <h2>Latest Investors</h2>
-      <div class="slider multiple-items">
-        <div class="order-card front orange-gradient" id="master-slide">
-          <h3 id="slide-1" class="text-center">Ready For Investors!</h3>
+    <h2>Stock Performance</h2>
+     <div class="row">
+        <div class="col-md-4 col-sm-6 col-8 title-hover">
             <table class="table table-hover table-dark">
                <thead>
                 <tr>
                   <th scope="col">Stock</th>
-                  <th scope="col" class="text-left">Buy</th>
+                  <th scope="col" class="text-left">Open</th>
                   <th scope="col" class="text-right">Current</th>
                   <th scope="col" class="text-center">+/-</th>
                 </tr>
               </thead>
-            {% for i in range(5) %}
-            <tr id=stock-{{i}} class="order-table">
+            {% for i in range(10) %}
+            <tr id=top-row-{{i}} class="top_performers">
                <td class="text-left symbol" scope="row">-</td>
-               <td class="text-left purchase" scope="row">-</td>
+               <td class="text-left starting" scope="row">-</td>
                <td class="text-right price" scope="row">-</td>
-               <td><button  type="button" class="btn btn-success">+0%</button></td>
+               <td><button  type="button" class="btn btn-success diff">+0%</button></td>
             </tr>
             {% end %}
             </table>
         </div>
+               <div class="col-md-4 col-sm-6 col-8 title-hover">
+            <table class="table table-hover table-dark">
+               <thead>
+                <tr>
+                  <th scope="col">Stock</th>
+                  <th scope="col" class="text-left">Open</th>
+                  <th scope="col" class="text-right">Current</th>
+                  <th scope="col" class="text-center">+/-</th>
+                </tr>
+              </thead>
+            {% for i in range(10) %}
+            <tr id=worst-row-{{i}} class="worst_performers">
+               <td class="text-left symbol" scope="row">-</td>
+               <td class="text-left starting" scope="row">-</td>
+               <td class="text-right price" scope="row">-</td>
+               <td><button  type="button" class="btn btn-success diff">+0%</button></td>
+            </tr>
+            {% end %}
+            </table>
+          </div>
       </div>
 
   </div> <!-- /container -->
@@ -50,8 +69,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 <script type="text/javascript" src="/slick/slick.min.js"></script>
-<script src="/js/orders.js"></script>
-<script src="/js/live_prices.js"></script>
+<script src="/js/stocks.js"></script>
+
 
 </body>
 </html>
