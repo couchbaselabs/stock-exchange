@@ -57,6 +57,10 @@ class StockLeaderboardHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("www/stock_performance.html")
 
+class InvestorLeaderboardHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render("www/investor_performance.html")
+
 class ClusterVisHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("www/visualiser.html")
@@ -90,7 +94,7 @@ class LiveOrdersWebSocket(tornado.websocket.WebSocketHandler):
     def open(self):
         self.RECENT_ORDERS = deque(maxlen=50)
         self.NEXT_CUSTOMER = 0
-        self.LATEST_TS = 0
+        self.PORTFOLIO_INDEX = 0
         self.NAME = "Live Orders"
         if self not in socket_list:
             socket_list.append(self)
@@ -108,17 +112,10 @@ class LiveOrdersWebSocket(tornado.websocket.WebSocketHandler):
 
     @tornado.gen.coroutine
     def send_orders(self):
-        res = yield bucket.queryAll(settings.DDOC_NAME, settings.VIEW_NAME,
-                                    include_docs=True, descending=False, limit=50,
-                                    startkey=self.LATEST_TS, stale=False)
-        new_order = False
-        for order in res:
-            new_order = True
-            global portfolio_cache
-            portfolio_cache.append(order.doc.value)
-            self.RECENT_ORDERS.append(order.doc.value)
-            self.LATEST_TS = order.doc.value['ts'] + 1
-            print order.key, order.doc.value['name']
+
+        if len(portfolio_cache) > self.PORTFOLIO_INDEX:
+            self.RECENT_ORDERS.extendleft(portfolio_cache[self.PORTFOLIO_INDEX:])
+            self.PORTFOLIO_INDEX = len(portfolio_cache)
 
         if len(self.RECENT_ORDERS) > 0:
             display_order = self.RECENT_ORDERS.pop()
@@ -165,6 +162,35 @@ class StockLeaderboardWebSocket(tornado.websocket.WebSocketHandler):
 
 
 
+class InvestorLeaderboardWebSocket(tornado.websocket.WebSocketHandler):
+    def open(self):
+        self.NAME = "Investor Leaderboard"
+        if self not in socket_list:
+            socket_list.append(self)
+            print("{} WebSocket opened").format(self.NAME)
+            self.callback = tornado.ioloop.PeriodicCallback(self.send_leaderboard,
+                                                            5000)
+            self.callback.start()
+
+    def on_message(self, message):
+        print "{} received: {}".format(self.NAME, message)
+
+    def on_close(self):
+        print("{} WebSocket closed").format(self.NAME)
+        self.callback.stop()
+
+    @tornado.gen.coroutine
+    def send_leaderboard(self):
+        global portfolio_cache
+        list_to_sort = [(portfolio["current_value"], portfolio) for portfolio in portfolio_cache]
+        list_to_sort.sort(reverse=True)
+        sorted_portfolios = [portfolio for (key, portfolio) in list_to_sort]
+        best_performers = sorted_portfolios[:5]
+        worst_performers = sorted_portfolios[-5:]
+        self.write_message({"best": best_performers, "worst": worst_performers})
+
+
+
 class LivePricesWebSocket(tornado.websocket.WebSocketHandler):
     def open(self):
         self.NAME = "Live Prices"
@@ -205,7 +231,9 @@ class SubmitHandler(tornado.web.RequestHandler):
         order = []
         for i in range (0,5):
             stock = data['order'][i];
-            d = {'symbol': stock[6:], 'purchase_price': price_data[stock[6:]] }
+            purchase_price = float(price_data[stock[6:]])
+            quantity = 100.0 / purchase_price
+            d = {'symbol': stock[6:], 'purchase_price': purchase_price, 'quantity': quantity }
             order.append(d)
         data['order'] = order
         yield bucket.upsert(key, data)
@@ -273,35 +301,50 @@ def update_cb_status():
 @tornado.gen.coroutine
 def update_price_data():
     global price_data, portfolio_cache
+    LATEST_TS = 0
     while True:
         call_time = time.time()
         results = yield bucket.n1qlQueryAll(
         'SELECT symbol,price FROM {} WHERE symbol IS NOT MISSING AND price IS NOT MISSING'.format(bucket_name, ))
-        result_time = time.time()
-        response_time = result_time - call_time
+
         final_results = {}
         for row in results:
             price_data[row['symbol']] = float(row['price'])
+
+        res = yield bucket.queryAll(settings.DDOC_NAME, settings.VIEW_NAME,
+                                    include_docs=True, descending=False, limit=50,
+                                    startkey=LATEST_TS, stale=False)
+        new_order = False
+        for order in res:
+            portfolio_cache.append(order.doc.value)
+            LATEST_TS = order.doc.value['ts'] + 1
+            print "New Order: ", order.key, order.doc.value['name']
+
         for portfolio in portfolio_cache:
-            portfolio_value = 500
+            portfolio_value = 0
             for stock in portfolio['order']:
-                purchase_price = stock['purchase_price']
                 current_price = price_data[stock['symbol']]
-                profit = 100.0 * (current_price - purchase_price)
-                portfolio_value += profit
+                quantity = stock['quantity']
+                stock_value = quantity * current_price
+                portfolio_value += stock_value
             portfolio['current_value'] = portfolio_value
-        print portfolio_cache
-        yield tornado.gen.sleep(5 - response_time)
+
+        result_time = time.time()
+        response_time = result_time - call_time
+        if response_time < 5: # don't go again til 5s has elaspsed 
+            yield tornado.gen.sleep(5 - response_time)
 
 def make_app():
     return tornado.web.Application([
         (r"/", ExchangeHandler),
         (r"/orders", LatestOrdersHandler),
         (r"/stocks", StockLeaderboardHandler),
+        (r"/investors", InvestorLeaderboardHandler),
         (r"/nodestatus", CBStatusWebSocket),
         (r"/liveorders", LiveOrdersWebSocket),
         (r"/liveprices", LivePricesWebSocket),
         (r"/stockleaderboard", StockLeaderboardWebSocket),
+        (r"/investorleaderboard", InvestorLeaderboardWebSocket),
         (r'/cluster', ClusterVisHandler),
         (r'/submit_order', SubmitHandler),
         (r'/search', SearchHandler),
