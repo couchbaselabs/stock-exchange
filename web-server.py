@@ -40,6 +40,7 @@ nodes = []
 n1ql_enabled = False
 xdcr_enabled = False
 price_data = {}
+portfolio_cache = []
 
 class ExchangeHandler(tornado.web.RequestHandler):
     @tornado.gen.coroutine
@@ -113,6 +114,8 @@ class LiveOrdersWebSocket(tornado.websocket.WebSocketHandler):
         new_order = False
         for order in res:
             new_order = True
+            global portfolio_cache
+            portfolio_cache.append(order.doc.value)
             self.RECENT_ORDERS.append(order.doc.value)
             self.LATEST_TS = order.doc.value['ts'] + 1
             print order.key, order.doc.value['name']
@@ -269,7 +272,7 @@ def update_cb_status():
 
 @tornado.gen.coroutine
 def update_price_data():
-    global price_data
+    global price_data, portfolio_cache
     while True:
         call_time = time.time()
         results = yield bucket.n1qlQueryAll(
@@ -279,6 +282,15 @@ def update_price_data():
         final_results = {}
         for row in results:
             price_data[row['symbol']] = float(row['price'])
+        for portfolio in portfolio_cache:
+            portfolio_value = 500
+            for stock in portfolio['order']:
+                purchase_price = stock['purchase_price']
+                current_price = price_data[stock['symbol']]
+                profit = 100.0 * (current_price - purchase_price)
+                portfolio_value += profit
+            portfolio['current_value'] = portfolio_value
+        print portfolio_cache
         yield tornado.gen.sleep(5 - response_time)
 
 def make_app():

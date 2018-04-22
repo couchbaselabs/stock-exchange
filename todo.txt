@@ -1,7 +1,5 @@
 TODO LIST
 ---------
-* Populate Order Page with Actual Selections and Prices
-* Record Purchase Price at Time of Order
 * Order Page to Receive Live Updates + Calculate New Total
 * Investment Leaderboard Page
 * Stock Leaderboard Page
