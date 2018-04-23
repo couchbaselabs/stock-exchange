@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+.submit-section{
+    text-align: center;
+}
+
+.name{
+    text-align: center;
+}
+
+.name-input{
+    height: 30px;
+    width: 300px;
+}
+
+
+
+
+.submit-btn{
+    border: 2px solid #fff;
+    color: #e81c21;
+    width: 100%;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    text-transform: capitalize;
+    background: #ffffff;
+    cursor: pointer;
+    padding: 17px 30px 13px 30px;
+    display: inline-block;
+    letter-spacing: -0.025em;
+    outline: none;
+    position: relative;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.submit-btn:hover{
+    color: white;
+    background-color: #ea2328;
+    border-color: white;
+}
+
+
+
+/*
+ * Cover
+ */
+
+.cover {
+    padding: 0 1.5rem;
+}
+.cover .btn-lg {
+    padding: .75rem 1.25rem;
+    font-weight: bold;
+}
+
+.search-container{
+    margin: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-style: solid;
+    border-color: yellow;
+    border-radius: 25px;
+    -webkit-box-shadow:0 0 20px yellow;
+    -moz-box-shadow: 0 0 20px yellow;
+    box-shadow:0 0 20px yellow;
+}
+
+.search-btn{
+    background: transparent;
+    border: none;
+}
+
+.search-input{
+    height: 100%;
+    float: left;
+    width: calc(100% - 41px);
+    background: linear-gradient(to bottom, rgba(51,51,51,1) 0%,rgba(32,26,25,1) 100%);
+    border: none;
+    color: #FFF;
+    padding: 11px 15px 5px 0;
+}
+/*
+ * Footer
+ */
+
+.mastfoot {
+    color: rgba(255,255,255,.5);
+}
+
+.type-btn{
+    border: 2px solid #fff;
+    color: #e81c21;
+    width: 80%;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    text-transform: capitalize;
+    text-align: center;
+    background: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    letter-spacing: -0.025em;
+    outline: none;
+    position: relative;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.type-btn:hover{
+    color: white;
+    background-color: #ea2328;
+    border-color: white;
+}
+
+.name-container {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.type-row {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-style: solid;
+    border-color: yellow;
+    border-radius: 25px;
+    -webkit-box-shadow:0 0 20px yellow;
+    -moz-box-shadow: 0 0 20px yellow;
+    box-shadow:0 0 20px yellow;
+}
