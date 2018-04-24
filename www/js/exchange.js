@@ -44,7 +44,7 @@ $( ".btn-product" ).click(function (event){
 
 var clear_filter = function (){
     $(".btn-product").each(function () {
-        $(this).parent().show();
+        $(this).parent().parent().show();
     });
 };
 
@@ -88,9 +88,9 @@ $(".search-btn").click(function() {
         clear_types();
         $(".btn-product").each(function () {
             if (data['keys'].indexOf($(this).val()) === -1){
-                $(this).parent().hide();
+                $(this).parent().parent().hide();
             }else{
-                $(this).parent().show();
+                $(this).parent().parent().show();
             }
         });
     }).fail(function(){
@@ -105,7 +105,7 @@ $(".type-btn").click(function(){
     $('.search-input').val('');
     if ($(this).hasClass("active")){
         $(".btn-product").each(function () {
-            $(this).parent().show();
+            $(this).parent().parent().show();
         });
         return;
     }
@@ -115,9 +115,9 @@ $(".type-btn").click(function(){
     $.get("/filter?type=" + $(this).val(), function (data){
         $(".btn-product").each(function () {
             if (data['keys'].indexOf($(this).val()) === -1){
-                $(this).parent().hide();
+                $(this).parent().parent().hide();
             }else{
-                $(this).parent().show();
+                $(this).parent().parent().show();
             }
         });
     });

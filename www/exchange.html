@@ -51,25 +51,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Main content -->
     <section class="content container-fluid">
-  <div class="row">
-
-        <div class="col-md-4"></div>
-        <div class="col-md-4 col-sm-6 col-8 col-offset-8 search-container" style="display:none;">
-            <input type="text" name="q" placeholder="Search Products" class="search-input">
-            <button class="search-btn"><img src="/img/search_glass.png" alt="Search"></button>
-        </div>
-    </div>
 
         <div class="bg-purple disabled row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="input-group input-group-lg name-container">
                     <input id="name-box" class="form-control" placeholder="Username">
                 </div>
             </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <input class="btn bg-purple submit-btn" type="button" value="Submit">
         </div>
+        <div class="col-md-4 col-sm-6 col-8 col-offset-8 search-container" style="display:none;">
+            <input type="text" name="q" placeholder="Search Stocks" class="search-input">
+            <button class="search-btn"><i class="fa fa-search"></i></button>
         </div>
+
+        </div> <!-- Row -->
 
         <div class="row type-row justify-content-end" style="display:none;">
             {% for x in sorted(['british', 'meat', 'drinks', 'snacks', 'basics', 'fruit']) %}
@@ -80,10 +77,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
 
         <div class="row products">
-            <div class="col-3"></div>
-                <div class="col-6 align-self-center">
             {% set keys = stocks.keys() %}
             {% set foo = random.shuffle(keys) %}
+          <div class="col-md-6">
             <table id="stocks_table" class="table table-striped">
               <thead>
                 <tr>
@@ -93,20 +89,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <th scope="col" class="text-center">+/-</th>
                 </tr>
               </thead>
-            {% for key in keys %}
+            {% for key in keys[:10] %}
             <tr>
-               <td> <button class="btn bg-purple btn-product {{ random.choice(['blue', 'lightblue', 'purple', 'red', 'green'])}}-bg" type="button" data-toggle="button" value="{{ key }}" title="{{ stocks[key].value['company'] }}">
-                    BUY</button></td>
-               <td class="text-left" scope="row">{{stocks[key].value['symbol']}}</td>
+               <td> <button class="btn btn-product" type="button" data-toggle="button" value="{{ key }}" title="{{ stocks[key].value['company'] }}">
+                    {{stocks[key].value['symbol']}}</button></td>
+               <td class="text-left" scope="row">{{ stocks[key].value['company'] }}</td>
                <td class="text-right {{stocks[key].value['symbol']}}-price">${{ stocks[key].value['price'] }}</td>
                <td><button id={{stocks[key].value['symbol']}}-btn type="button" class="btn btn-success">+7%</button></td>
             </tr>
             {% end %}
             </table>
-                                </div>
-        <div class="col-3"></div>
-
-    </div>
+          </div>
+            <div class="col-md-6">
+            <table id="stocks_table" class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Stock</th>
+                  <th scope="col" class="text-right">Price</th>
+                  <th scope="col" class="text-center">+/-</th>
+                </tr>
+              </thead>
+            {% for key in keys[10:] %}
+            <tr>
+               <td> <button class="btn btn-product {{ random.choice(['blue', 'lightblue', 'purple', 'red', 'green'])}}-bg" type="button" data-toggle="button" value="{{ key }}" title="{{ stocks[key].value['company'] }}">
+                    {{stocks[key].value['symbol']}}</button></td>
+               <td class="text-left" scope="row">{{ stocks[key].value['company'] }}</td>
+               <td class="text-right {{stocks[key].value['symbol']}}-price">${{ stocks[key].value['price'] }}</td>
+               <td><button id={{stocks[key].value['symbol']}}-btn type="button" class="btn btn-success">+7%</button></td>
+            </tr>
+            {% end %}
+            </table>
+           </div>
+    </div> <!-- row -->
 
     </div>
 

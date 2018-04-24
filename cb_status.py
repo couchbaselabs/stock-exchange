@@ -113,6 +113,10 @@ def get_node_status():
             node_list[index]['status'] = "out"
     raise tornado.gen.Return(node_list)
 
+def strip_host(hostname):
+    stripped_host = hostname.replace("http://","")
+    stripped_host = stripped_host.replace(":8091","")
+    return stripped_host
 
 @tornado.gen.coroutine
 def fts_nodes():
@@ -121,9 +125,9 @@ def fts_nodes():
     for node_info in response["nodesExt"]:
         if 'fts' in node_info['services']:
             if 'thisNode' in node_info and node_info['thisNode']:
-                fts_nodes.append(node)
+                fts_nodes.append(strip_host(node))
             else:
-                fts_nodes.append(node_info['hostname'])
+                fts_nodes.append(strip_host(node_info['hostname']))
 
     raise tornado.gen.Return(fts_nodes)
 
