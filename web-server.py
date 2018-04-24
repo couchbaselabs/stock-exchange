@@ -276,7 +276,7 @@ class FilterHandler(tornado.web.RequestHandler):
     def get(self):
         data = self.get_query_argument('type')
         results = yield bucket.n1qlQueryAll(
-            'SELECT meta().id FROM {} WHERE category = "{}"'
+            'SELECT meta().id FROM {} WHERE sector = "{}"'
             .format(bucket_name, data))
 
         final_results = []

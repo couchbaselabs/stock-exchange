@@ -125,30 +125,18 @@ $(".type-btn").click(function(){
 
 $(".type-row").hover(function(){
     $(this).css("border-style", "none");
-    $(this).css("-webkit-box-shadow", "none");
-    $(this).css("-moz-box-shadow", "none");
-    $(this).css("box-shadow", "none");
 });
 
 $(".type-row").click(function(){
     $(this).css("border-style", "none");
-    $(this).css("-webkit-box-shadow", "none");
-    $(this).css("-moz-box-shadow", "none");
-    $(this).css("box-shadow", "none");
 });
 
 $(".search-container").hover(function(){
     $(this).css("border-style", "none");
-    $(this).css("-webkit-box-shadow", "none");
-    $(this).css("-moz-box-shadow", "none");
-    $(this).css("box-shadow", "none");
 });
 
 $(".search-container").click(function(){
     $(this).css("border-style", "none");
-    $(this).css("-webkit-box-shadow", "none");
-    $(this).css("-moz-box-shadow", "none");
-    $(this).css("box-shadow", "none");
 });
 
 $(document).ready(function(){
@@ -202,7 +190,6 @@ window.onload = function ExchangePageWebSockets(){
             } else {
                 $(".type-row").hide();
             }
-            console.log("received: "+msg)
 
         };
 

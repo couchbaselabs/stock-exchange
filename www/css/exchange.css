@@ -85,13 +85,14 @@
 
 .type-btn{
     border: 2px solid #fff;
-    width: 80%;
+  /*  width: 80%;*/
     font-style: normal;
     font-weight: 700;
     font-size: 18px;
     text-transform: capitalize;
     text-align: center;
-    background: #ffffff;
+background-color: #605ca8; 
+color: white;
     cursor: pointer;
     display: inline-block;
     letter-spacing: -0.025em;
@@ -104,7 +105,7 @@
 
 .type-btn:hover{
     color: white;
-    background-color: #ea2328;
+    opacity: 0.65;
     border-color: white;
 }
 
@@ -119,7 +120,4 @@
     border-style: solid;
     border-color: yellow;
     border-radius: 25px;
-    -webkit-box-shadow:0 0 20px yellow;
-    -moz-box-shadow: 0 0 20px yellow;
-    box-shadow:0 0 20px yellow;
 }
