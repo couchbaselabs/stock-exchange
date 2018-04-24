@@ -47,9 +47,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Content Header (Page header) -->
     <section class="content-header">
        <h2>Investor Performance</h2>
+    </section>
+
+     <section class="content">
      <div class="row">
-        <div class="col-md-4 col-sm-6 col-8 title-hover">
-            <table class="table table-hover table-dark">
+        <div class="col-md-6 ">
+          <div class="bg-purple disabled small-box">
+            <div class="inner">
+              <h3>Best</h3>
+            </div>
+          </div>
+            <table class="table table-striped">
                <thead>
                 <tr>
                   <th scope="col">Investor</th>
@@ -64,8 +72,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             {% end %}
             </table>
         </div>
-               <div class="col-md-4 col-sm-6 col-8 title-hover">
-            <table class="table table-hover table-dark">
+               <div class="col-md-6">
+          <div class="bg-purple active small-box">
+            <div class="inner">
+              <h3>Worst</h3>
+            </div>
+</div>
+            <table class="table table-hover">
                <thead>
                 <tr> 
                   <th scope="col">Investor</th>

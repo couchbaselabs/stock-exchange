@@ -35,26 +35,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<!--
-BODY TAG OPTIONS:
-=================
-Apply one or more of the following classes to get the
-desired effect
-|---------------------------------------------------------|
-| SKINS         | skin-blue                               |
-|               | skin-black                              |
-|               | skin-purple                             |
-|               | skin-yellow                             |
-|               | skin-red                                |
-|               | skin-green                              |
-|---------------------------------------------------------|
-|LAYOUT OPTIONS | fixed                                   |
-|               | layout-boxed                            |
-|               | layout-top-nav                          |
-|               | sidebar-collapse                        |
-|               | sidebar-mini                            |
-|---------------------------------------------------------|
--->
+
 <body class="hold-transition skin-purple sidebar-mini">
 <div class="wrapper">
 
@@ -65,22 +46,13 @@ desired effect
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-    <h1 class="masthead-brand">CB $tock £xchange
-        <small>Let the good times roll</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-        <li class="active">Here</li>
-      </ol>
+      <h2>Live Couchbase Stock Exchange<h2>
     </section>
 
     <!-- Main content -->
     <section class="content container-fluid">
   <div class="row">
-        <div class="col-md-4 col-sm-6 col-8 title-hover">
-            <a href="/"></a>
-            <span class="couchmart-tooltip">bit.ly/cbsko-prep</span>
-        </div>
+
         <div class="col-md-4"></div>
         <div class="col-md-4 col-sm-6 col-8 col-offset-8 search-container" style="display:none;">
             <input type="text" name="q" placeholder="Search Products" class="search-input">
@@ -88,12 +60,15 @@ desired effect
         </div>
     </div>
 
-        <div class="row">
-            <div class="col align-self-center">
+        <div class="bg-purple disabled row">
+            <div class="col-md-6">
                 <div class="input-group input-group-lg name-container">
                     <input id="name-box" class="form-control" placeholder="Username">
                 </div>
             </div>
+        <div class="col-md-6">
+            <input class="btn bg-purple submit-btn" type="button" value="Submit">
+        </div>
         </div>
 
         <div class="row type-row justify-content-end" style="display:none;">
@@ -109,7 +84,7 @@ desired effect
                 <div class="col-6 align-self-center">
             {% set keys = stocks.keys() %}
             {% set foo = random.shuffle(keys) %}
-            <table id="stocks_table" class="table table-hover table-dark">
+            <table id="stocks_table" class="table table-striped">
               <thead>
                 <tr>
                   <th scope="col"></th>
@@ -120,7 +95,7 @@ desired effect
               </thead>
             {% for key in keys %}
             <tr>
-               <td> <button class="btn btn-primary btn-product {{ random.choice(['blue', 'lightblue', 'purple', 'red', 'green'])}}-bg" type="button" data-toggle="button" value="{{ key }}" title="{{ stocks[key].value['company'] }}">
+               <td> <button class="btn bg-purple btn-product {{ random.choice(['blue', 'lightblue', 'purple', 'red', 'green'])}}-bg" type="button" data-toggle="button" value="{{ key }}" title="{{ stocks[key].value['company'] }}">
                     BUY</button></td>
                <td class="text-left" scope="row">{{stocks[key].value['symbol']}}</td>
                <td class="text-right {{stocks[key].value['symbol']}}-price">${{ stocks[key].value['price'] }}</td>
@@ -134,13 +109,7 @@ desired effect
     </div>
 
     </div>
-    <div class="row" style="padding-bottom:20px;">
-        <div class="col-1"></div>
-        <div class="col-10 align-self-center">
-            <input class="btn btn-primary submit-btn" type="button" value="Submit">
-        </div>
-        <div class="col-1"></div>
-    </div>
+
 </div>
 
     </section> <!-- /.content -->

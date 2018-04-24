@@ -4,43 +4,25 @@
     text-align: center;
 }
 
-.name{
-    text-align: center;
-}
-
-.name-input{
-    height: 30px;
-    width: 300px;
-}
-
-
-
 
 .submit-btn{
     border: 2px solid #fff;
     color: #e81c21;
-    width: 100%;
+    width: 50%;
     font-style: normal;
     font-weight: 700;
     font-size: 18px;
     text-transform: capitalize;
     background: #ffffff;
     cursor: pointer;
-    padding: 17px 30px 13px 30px;
-    display: inline-block;
-    letter-spacing: -0.025em;
-    outline: none;
-    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
     transition: all 0.3s;
 }
 
-.submit-btn:hover{
-    color: white;
-    background-color: #ea2328;
-    border-color: white;
-}
+
 
 
 
@@ -92,7 +74,6 @@
 
 .type-btn{
     border: 2px solid #fff;
-    color: #e81c21;
     width: 80%;
     font-style: normal;
     font-weight: 700;
