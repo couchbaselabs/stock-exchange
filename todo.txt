@@ -1,11 +1,16 @@
 TODO LIST
 ---------
-* Order Page to Receive Live Updates + Calculate New Total
-* Investment Leaderboard Page
-* Stock Leaderboard Page
-* Create Individual User Page
-* Consistent Framework / Nav Bar across all Pages
-* Incorporate K8s
+* Write script
+* Choose Sensible Stock companies / names / sectors
+* Number of stocks / dataset size
+* Name validation (length / chars / profanity)
+* GEO page / trade blotter
+* Stop tables wobbling when numbers change
+* Incorporate a graph somewhere
+* Link Kubernetes into visualiser
+* Create Individual User Page ?
+* Submit / Search / Name button layout
+* Font sizes on all pages
 * Create pre-flight check script to check for (autofailover, indexes, node types, data_set, mobile_data)
 * Refresh Visualiser (remove node icons?)
 * Mobile App: Portfolio Page
