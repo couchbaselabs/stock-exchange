@@ -61,6 +61,26 @@ class InvestorLeaderboardHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("www/investor_performance.html")
 
+class GeoLeaderboardHandler(tornado.web.RequestHandler):
+    @tornado.gen.coroutine
+    def get(self):
+        base_query = "SELECT portfolio.symbol, doc.name, portfolio.purchase_price, portfolio.quantity from {} as doc \
+        UNNEST doc.`order` as portfolio \
+        where  doc.`geo` == '{}' \
+        ORDER BY portfolio.symbol"
+        geo_data = {}
+        for geo in ["USA", "EU"]:
+            query_res = yield bucket.n1qlQueryAll(base_query.format(bucket_name, geo))
+            investments = []
+            grand_total = 0
+            for row in query_res:
+                profit = (row['quantity'] * price_data[row['symbol']] ) - 100
+                row['profit'] = round(profit,2)
+                grand_total += profit
+                investments.append(row)
+            geo_data[geo] = {"total": round(grand_total,2), "investments": investments}
+        self.render("www/geo_leaderboard.html", prices=price_data, geo_data=geo_data)
+
 class ClusterVisHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("www/visualiser.html")
@@ -159,7 +179,6 @@ class StockLeaderboardWebSocket(tornado.websocket.WebSocketHandler):
         for row in worst_results:
             poor_performers.append(row)
         self.write_message({"best": good_performers, "worst": poor_performers})
-
 
 
 class InvestorLeaderboardWebSocket(tornado.websocket.WebSocketHandler):
@@ -340,6 +359,7 @@ def make_app():
         (r"/orders", LatestOrdersHandler),
         (r"/stocks", StockLeaderboardHandler),
         (r"/investors", InvestorLeaderboardHandler),
+        (r"/geo", GeoLeaderboardHandler),
         (r"/nodestatus", CBStatusWebSocket),
         (r"/liveorders", LiveOrdersWebSocket),
         (r"/liveprices", LivePricesWebSocket),
