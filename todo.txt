@@ -1,19 +1,30 @@
 TODO LIST
 ---------
-* Write script
-* Choose Sensible Stock companies / names / sectors
-* Number of stocks / dataset size
-* Name validation (length / chars / profanity)
-* GEO page / trade blotter
-* Stop tables wobbling when numbers change
+Must
+-----
+* (DH) Write script
+* More orders on the order page (scrolling faster?)
+* (MC) Stock price fluctuation calculation (7%)
+* GEO page - uncategorized orders
+* Separate bucket for historical data and traffic to both
+* (MC) Style of mobile pop-up
+* (MC) Full set of Nasdaq Stocks but keep 1st page the same
+* (MC) Choose Sensible Stock companies / names / sectors
+* (MC) Name validation (length / chars / profanity)
+* (MC) Stop tables wobbling when numbers change
+* (MC) Submit / Search / Name button layout
+* Font sizes on all pages
+* Precision of quantity
+* Why does the visualiser stop dead after a failover
+
+
+Nice to have
+----
+* Open and Close Market
+* Mobile App: differentiate online / offline
+* Mobile App: "delete content" startup button
+* Create pre-flight check script to check for (autofailover, indexes, node types, data_set, mobile_data)
 * Incorporate a graph somewhere
 * Link Kubernetes into visualiser
-* Create Individual User Page ?
-* Submit / Search / Name button layout
-* Font sizes on all pages
-* Create pre-flight check script to check for (autofailover, indexes, node types, data_set, mobile_data)
-* Refresh Visualiser (remove node icons?)
 * Mobile App: Portfolio Page
-* Mobile App: differentiate online / offline
-* Mobile App: Phone App
-* Mobile App: "delete content" startup button
+* Refresh Visualiser (remove node icons?)
