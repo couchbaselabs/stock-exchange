@@ -52,7 +52,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Main content -->
     <section class="content container-fluid">
      <div class="row">
-          {% for geo in geo_data.keys() %}
+          {% set i = 0 %}
+          {% for geo in sorted(geo_data.keys()) %}
+          {% set i = i + 1 %}
         <div class="col-md-6">
           <div class="bg-purple disabled small-box">
             <div class="inner">
@@ -82,7 +84,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </tr>
                     {% end %}
             </table>
-        </div>
+        </div><!-- Col-->
+
+        {% if i == 2 %}
+        </div> <!-- Row-->
+         <div class="row">
+        {% end %}
+          
         {% end %}
       </div> <!-- Row-->
     </section>  <!-- /.content -->

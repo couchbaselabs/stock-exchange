@@ -66,16 +66,21 @@ class GeoLeaderboardHandler(tornado.web.RequestHandler):
     def get(self):
         base_query = "SELECT portfolio.symbol, doc.name, portfolio.purchase_price, portfolio.quantity from {} as doc \
         UNNEST doc.`order` as portfolio \
-        where  doc.`geo` == '{}' \
+        {} \
         ORDER BY portfolio.symbol"
         geo_data = {}
-        for geo in ["USA", "EU"]:
-            query_res = yield bucket.n1qlQueryAll(base_query.format(bucket_name, geo))
+        for geo in ["USA", "EU", "n/a"]:
+            if geo == "n/a":
+                where_clause = "where doc.`type`=='order' AND doc.`geo` IS MISSING"
+            else:
+                where_clause = "where doc.`geo` == '{}'".format(geo)
+            query_res = yield bucket.n1qlQueryAll(base_query.format(bucket_name, where_clause))
             investments = []
             grand_total = 0
             for row in query_res:
                 profit = (row['quantity'] * price_data[row['symbol']] ) - 100
                 row['profit'] = round(profit,2)
+                row['quantity'] = round(row['quantity'],2)
                 grand_total += profit
                 investments.append(row)
             geo_data[geo] = {"total": round(grand_total,2), "investments": investments}
