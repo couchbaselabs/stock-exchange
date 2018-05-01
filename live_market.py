@@ -3,6 +3,7 @@ from couchbase.bucket import Bucket
 import couchbase.subdocument as SD
 import settings
 import random
+import time
 
 
 bucket_name = settings.BUCKET_NAME
@@ -32,3 +33,4 @@ while True:
         SDK_CLIENT.mutate_in(stock_key,
                             SD.upsert('price', new_price))
 
+    time.sleep(1)
