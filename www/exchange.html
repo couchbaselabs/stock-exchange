@@ -22,6 +22,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
   <link rel="stylesheet" href="/external/AdminLTE/css/skins/skin-purple.min.css">
+          <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" rel="stylesheet"/>
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/css/dataTables.bootstrap4.min.css" rel="stylesheet"/>
 
     <link href="/css/exchange.css" rel="stylesheet">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -75,11 +77,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
             {% end %}
         </div>
-
-        <div class="row products">
-            {% set keys = stocks.keys() %}
-            {% set foo = random.shuffle(keys) %}
-          <div class="col-md-6">
+        <div class="row">
             <table id="stocks_table" class="table table-striped">
               <thead>
                 <tr>
@@ -89,44 +87,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <th scope="col" class="text-center">+/-</th>
                 </tr>
               </thead>
-            {% for key in keys[:10] %}
+            {% for key in keys %}
             <tr>
                <td> <button class="btn btn-product" type="button" data-toggle="button" value="{{ key }}" title="{{ stocks[key].value['company'] }}">
                     {{stocks[key].value['symbol']}}</button></td>
                <td class="text-left" scope="row">{{ stocks[key].value['company'] }}</td>
                <td class="text-right {{stocks[key].value['symbol']}}-price">${{ stocks[key].value['price'] }}</td>
-               <td><button id={{stocks[key].value['symbol']}}-btn type="button" class="btn btn-success">+7%</button></td>
+               <td><button id={{stocks[key].value['symbol']}}-btn type="button" class="btn btn-success pull-right">0%</button></td>
             </tr>
             {% end %}
             </table>
-          </div>
-            <div class="col-md-6">
-            <table id="stocks_table" class="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col"></th>
-                  <th scope="col">Stock</th>
-                  <th scope="col" class="text-right">Price</th>
-                  <th scope="col" class="text-center">+/-</th>
-                </tr>
-              </thead>
-            {% for key in keys[10:] %}
-            <tr>
-               <td> <button class="btn btn-product {{ random.choice(['blue', 'lightblue', 'purple', 'red', 'green'])}}-bg" type="button" data-toggle="button" value="{{ key }}" title="{{ stocks[key].value['company'] }}">
-                    {{stocks[key].value['symbol']}}</button></td>
-               <td class="text-left" scope="row">{{ stocks[key].value['company'] }}</td>
-               <td class="text-right {{stocks[key].value['symbol']}}-price">${{ stocks[key].value['price'] }}</td>
-               <td><button id={{stocks[key].value['symbol']}}-btn type="button" class="btn btn-success">+7%</button></td>
-            </tr>
-            {% end %}
-            </table>
-           </div>
-    </div> <!-- row -->
-
-    </div>
-
-</div>
-
+        </div>
     </section> <!-- /.content -->
   </div> <!-- /.content-wrapper -->
 
@@ -142,12 +113,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="/external/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="/external/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.13/js/dataTables.bootstrap4.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/external/AdminLTE/js/adminlte.min.js"></script>
 <script src="js/exchange.js"></script>
 <script src="js/live_prices.js"></script>
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. -->
+<script></script>
 </body>
 </html>

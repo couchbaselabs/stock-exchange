@@ -47,7 +47,12 @@ class ExchangeHandler(tornado.web.RequestHandler):
     def get(self):
         company_list = yield bucket.get(settings.PRODUCT_LIST)
         stocks = yield bucket.get_multi(company_list.value['symbols'])
-        self.render("www/exchange.html", stocks=stocks)
+        keys = stocks.keys()
+        first_keys = keys[:20]
+        rest = keys[20:]
+        random.shuffle(rest)
+        keys = first_keys + rest
+        self.render("www/exchange.html", stocks=stocks, keys=keys)
 
 class LatestOrdersHandler(tornado.web.RequestHandler):
     def get(self):

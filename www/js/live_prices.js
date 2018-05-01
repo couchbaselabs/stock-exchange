@@ -21,7 +21,8 @@ $(document).ready(function(){
         price_elem = "." + symbol + "-price";
         btn_elem = "#" + symbol + "-btn";
         cur_price = parseFloat( $(price_elem).text().substring(1) );
-        new_price = parseFloat(msg[symbol]); 
+        new_price = parseFloat(msg[symbol]);
+        change = Math.round(((new_price - cur_price) / cur_price) * 100 * 100) / 100;
         if (new_price >= cur_price)
         {
             $(btn_elem).removeClass("btn-danger");
@@ -31,6 +32,7 @@ $(document).ready(function(){
             $(btn_elem).removeClass("btn-success");
             $(btn_elem).addClass("btn-danger");  
         }
+        $(btn_elem).text(change + "%");
         $(price_elem).text('$'+new_price);
       }
     }

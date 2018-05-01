@@ -1,52 +1,45 @@
+var table = null;
+var filtered_keys = [];
+var currently_selected = [];
+
 $( ".submit-btn" ).click(function() {
-    var active_buttons = $(".btn-product.active");
     var name_box = $("#name-box");
-    var orders = [];
 
     if (!name_box.val()){
         alert("Please enter a name before submitting.");
         return;
     }
-    if (active_buttons.length < 5){
+    if (currently_selected.length < 5){
         alert("Please select 5 items before submitting.");
         return;
     }
 
-
-    active_buttons.each(function (index){
-        orders.push($(this).val())
-    });
-
     $.post( "/submit_order",
         JSON.stringify({
             name: name_box.val(),
-            order: orders}),
+            order: currently_selected}),
         function( data ) {
-            alert("Order submitted!")
+            alert("Order submitted!");
+            $(".btn-product.active").removeClass("active");
+            currently_selected = [];
         })
         .fail(function () {
             alert("Error submitting order.")
         });
-
-    active_buttons.removeClass("active");
 });
 
 $( ".btn-product" ).click(function (event){
-    var active_buttons = $(".btn-product.active");
-    if (active_buttons.length >= 5) {
+    if (currently_selected.length >= 5) {
         if (!$(this).hasClass("active")) {
 
             alert("Cannot select more than 5 items.");
             event.stopPropagation();
         }
+    } else {
+        currently_selected.push($(this).val())
     }
 });
 
-var clear_filter = function (){
-    $(".btn-product").each(function () {
-        $(this).parent().parent().show();
-    });
-};
 
 var clear_types = function (){
     $(".type-btn").each(function () {
@@ -79,20 +72,15 @@ if (hasTouch()) { // remove all :hover stylesheets
 $(".search-btn").click(function() {
     if($('.search-input').val() === ""){
         clear_types();
-        clear_filter();
+        filtered_keys = [];
+        table.draw();
         return;
     }
     $(".search-btn").attr("disabled", true);
     $("body > div > div > div > div > div.container > div:nth-child(1) > div.col-md-4.col-sm-6.col-8.search-container > button > img").addClass("rotate");
     $.get("/search?q="+$(".search-input").val(), function (data){
-        clear_types();
-        $(".btn-product").each(function () {
-            if (data['keys'].indexOf($(this).val()) === -1){
-                $(this).parent().parent().hide();
-            }else{
-                $(this).parent().parent().show();
-            }
-        });
+        filtered_keys = data['keys'];
+        table.draw();
     }).fail(function(){
         alert("Error submitting search.")
     }).always(function (){
@@ -103,24 +91,13 @@ $(".search-btn").click(function() {
 
 $(".type-btn").click(function(){
     $('.search-input').val('');
-    if ($(this).hasClass("active")){
-        $(".btn-product").each(function () {
-            $(this).parent().parent().show();
-        });
-        return;
-    }
 
     clear_types();
-
     $.get("/filter?type=" + $(this).val(), function (data){
-        $(".btn-product").each(function () {
-            if (data['keys'].indexOf($(this).val()) === -1){
-                $(this).parent().parent().hide();
-            }else{
-                $(this).parent().parent().show();
-            }
-        });
+        filtered_keys = data['keys'];
+        table.draw();
     });
+
 });
 
 $(".type-row").hover(function(){
@@ -156,11 +133,29 @@ $(document).ready(function(){
 $(document).ready(function(){
     $('.search-input').on('input', function(e){
         if($('.search-input').val() === ""){
-            clear_filter();
-            clear_types();
+        clear_types();
+        filtered_keys = [];
+        table.draw();
         }
     });
 });
+
+$(document).ready(function() {
+    table = $('#stocks_table').DataTable({"pageLength": 20,"lengthChange":false, "ordering":false,"dom": 'lrtip',
+    "drawCallback": function(settings){
+         $(".btn-product.active").each(function(index){
+             if (currently_selected.indexOf($(this).val()) === -1){
+                 $(this).removeClass("active");
+             }
+         });
+    }});
+    $.fn.dataTable.ext.search.push(
+        function( settings, data, dataIndex ) {
+            var button = data[0];
+            button = "stock:" + $.trim(button);
+            return (filtered_keys.indexOf(button) !== -1 || filtered_keys.length === 0);
+    });
+} );
 
 window.onload = function ExchangePageWebSockets(){
 // One web socket to get the nodes statuses, another web socket to get the live price info
