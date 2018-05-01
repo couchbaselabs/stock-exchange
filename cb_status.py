@@ -58,7 +58,7 @@ def get_url(endpoint, host_list=bucket.server_nodes, raise_exception=False):
                 print ("Could not retrieve URL: " + str(target_url) + str(e))
                 exceptions.append(e)
 
-        if exceptions == len(host_list) and raise_exception:
+        if len(exceptions) == len(host_list) and raise_exception:
             raise exceptions[0]
         else:
             exceptions = []
