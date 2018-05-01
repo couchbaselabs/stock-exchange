@@ -5,7 +5,6 @@ from couchbase.bucket import Bucket
 import settings
 import random
 import csv
-
 bucket_name = settings.BUCKET_NAME
 user = settings.USERNAME
 password = settings.PASSWORD
@@ -14,6 +13,8 @@ if settings.AWS:
 else:
     node = settings.AZURE_NODES[0]
 
+print("/opt/couchbase/bin/cbimport json -c {} -u {} -p {} --bucket {} --dataset file://stocks.json --generate-key 'stock:%symbol%' -f lines".format(node, user, password, bucket_name))
+exit(0)
 SDK_CLIENT = Bucket('couchbase://{0}/{1}'.format(node, bucket_name),
                     username=user, password=password)
 
