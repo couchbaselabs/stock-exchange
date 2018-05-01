@@ -47,12 +47,19 @@ class ExchangeHandler(tornado.web.RequestHandler):
     def get(self):
         company_list = yield bucket.get(settings.PRODUCT_LIST)
         stocks = yield bucket.get_multi(company_list.value['symbols'])
+        r = yield bucket.n1qlQueryAll(
+            "SELECT distinct sector from {} where sector IS NOT MISSING".format(bucket_name))
+        sectors = []
+        for row in r:
+            sectors.append(row['sector'])
+
+        sectors = sorted(sectors)
         keys = stocks.keys()
         first_keys = keys[:20]
         rest = keys[20:]
         random.shuffle(rest)
         keys = first_keys + rest
-        self.render("www/exchange.html", stocks=stocks, keys=keys)
+        self.render("www/exchange.html", stocks=stocks, keys=keys, sectors=sectors)
 
 class LatestOrdersHandler(tornado.web.RequestHandler):
     def get(self):

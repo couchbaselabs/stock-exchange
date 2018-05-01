@@ -71,7 +71,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div> <!-- Row -->
 
         <div class="row type-row justify-content-end" style="display:none;">
-            {% for x in sorted(['Health', 'Tech', 'Finance', 'Public', 'Energy', 'Travel']) %}
+            {% for x in sectors %}
             <div class="col-md-2 type-btn-col">
                 <input class="btn btn-primary type-btn" data-toggle="button" type="button" value="{{ x }}">
             </div>

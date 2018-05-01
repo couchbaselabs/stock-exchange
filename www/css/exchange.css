@@ -98,6 +98,7 @@ color: white;
     letter-spacing: -0.025em;
     outline: none;
     position: relative;
+    width: 100%;
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
     transition: all 0.3s;
