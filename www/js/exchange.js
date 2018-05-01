@@ -76,6 +76,7 @@ $(".search-btn").click(function() {
         table.draw();
         return;
     }
+    clear_types();
     $(".search-btn").attr("disabled", true);
     $("body > div > div > div > div > div.container > div:nth-child(1) > div.col-md-4.col-sm-6.col-8.search-container > button > img").addClass("rotate");
     $.get("/search?q="+$(".search-input").val(), function (data){
