@@ -21,9 +21,9 @@ $(document).ready(function(){
         price_elem = "." + symbol + "-price";
         btn_elem = "#" + symbol + "-btn";
         cur_price = parseFloat( $(price_elem).text().substring(1) );
-        new_price = parseFloat(msg[symbol]);
-        change = Math.round(((new_price - cur_price) / cur_price) * 100 * 100) / 100;
-        if (new_price >= cur_price)
+        new_price = parseFloat(msg[symbol]['price']);
+        change = parseFloat(msg[symbol]['change']);
+        if (change >= 0)
         {
             $(btn_elem).removeClass("btn-danger");
             $(btn_elem).addClass("btn-success");

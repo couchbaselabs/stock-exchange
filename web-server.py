@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from collections import deque
 import datetime
+import math
 import random
 import time
 import urllib
@@ -90,7 +91,7 @@ class GeoLeaderboardHandler(tornado.web.RequestHandler):
             investments = []
             grand_total = 0
             for row in query_res:
-                profit = (row['quantity'] * price_data[row['symbol']] ) - 100
+                profit = (row['quantity'] * price_data[row['symbol']]['price'] ) - 100
                 row['profit'] = round(profit,2)
                 row['quantity'] = round(row['quantity'],2)
                 grand_total += profit
@@ -267,7 +268,7 @@ class SubmitHandler(tornado.web.RequestHandler):
         order = []
         for i in range (0,5):
             stock = data['order'][i];
-            purchase_price = float(price_data[stock[6:]])
+            purchase_price = float(price_data[stock[6:]]['price'])
             quantity = 100.0 / purchase_price
             d = {'symbol': stock[6:], 'purchase_price': purchase_price, 'quantity': quantity }
             order.append(d)
@@ -341,11 +342,12 @@ def update_price_data():
     while True:
         call_time = time.time()
         results = yield bucket.n1qlQueryAll(
-        'SELECT symbol,price FROM {} WHERE symbol IS NOT MISSING AND price IS NOT MISSING'.format(bucket_name, ))
+        'SELECT symbol,price,starting_price FROM {} WHERE symbol IS NOT MISSING AND price IS NOT MISSING'.format(bucket_name, ))
 
         final_results = {}
         for row in results:
-            price_data[row['symbol']] = float(row['price'])
+            price_change = round(((float(row['price']) - float(row['starting_price'])) * 100) / float(row['starting_price']) , 2)
+            price_data[row['symbol']] = {'price': float(row['price']), 'change': price_change}
 
         res = yield bucket.queryAll(settings.DDOC_NAME, settings.VIEW_NAME,
                                     include_docs=True, descending=False, limit=50,
@@ -359,7 +361,7 @@ def update_price_data():
         for portfolio in portfolio_cache:
             portfolio_value = 0
             for stock in portfolio['order']:
-                current_price = price_data[stock['symbol']]
+                current_price = price_data[stock['symbol']]['price']
                 quantity = stock['quantity']
                 stock_value = quantity * current_price
                 portfolio_value += stock_value

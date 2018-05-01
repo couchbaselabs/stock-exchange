@@ -18,11 +18,11 @@ $(document).ready(function(){
       $('#top-row-'+i).find(".symbol").text(msg['best'][i]['symbol']);
       $('#top-row-'+i).find(".starting").text(msg['best'][i]['starting_price']);
       $('#top-row-'+i).find(".price").text(msg['best'][i]['price']);
-      $('#top-row-'+i).find(".diff").text(msg['best'][i]['price_diff'].toFixed(2));
+      $('#top-row-'+i).find(".diff").text(msg['best'][i]['price_diff'].toFixed(2) + "%");
       $('#worst-row-'+i).find(".symbol").text(msg['worst'][i]['symbol']);
       $('#worst-row-'+i).find(".starting").text(msg['worst'][i]['starting_price']);
       $('#worst-row-'+i).find(".price").text(msg['worst'][i]['price']);
-      $('#worst-row-'+i).find(".diff").text(msg['worst'][i]['price_diff'].toFixed(2));
+      $('#worst-row-'+i).find(".diff").text(msg['worst'][i]['price_diff'].toFixed(2) + "%");
     }
   };
 
