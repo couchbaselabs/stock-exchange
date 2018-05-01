@@ -12,7 +12,9 @@ window.onload = function N1QLSocket(){
         ws.onmessage = function (evt)
         {
           //  $(document).find("td").text("HEY HEY");
+            $('#master-slide').hide();
             var new_elem = $('#master-slide').clone();
+            new_elem.show();
             var msg = JSON.parse(evt.data);
             var order = msg['order'];
             new_elem.attr('id',slideIndex);
@@ -49,6 +51,6 @@ window.onload = function N1QLSocket(){
 
 $(document).ready(function(){
       $('.multiple-items').slick({
-          slidesToShow: 3,
+          slidesToShow: 5,
           slidesToScroll: 1   });
     });
