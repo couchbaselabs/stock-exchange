@@ -140,6 +140,7 @@ class LiveOrdersWebSocket(tornado.websocket.WebSocketHandler):
             self.callback = tornado.ioloop.PeriodicCallback(self.send_orders,
                                                             5000)
             self.callback.start()
+            self.send_orders()
 
     def on_message(self, message):
         print "{} received: {}".format(self.NAME, message)
@@ -173,6 +174,7 @@ class StockLeaderboardWebSocket(tornado.websocket.WebSocketHandler):
             self.callback = tornado.ioloop.PeriodicCallback(self.send_leaderboard,
                                                             5000)
             self.callback.start()
+            self.send_leaderboard()
 
     def on_message(self, message):
         print "{} received: {}".format(self.NAME, message)
@@ -208,6 +210,7 @@ class InvestorLeaderboardWebSocket(tornado.websocket.WebSocketHandler):
             self.callback = tornado.ioloop.PeriodicCallback(self.send_leaderboard,
                                                             5000)
             self.callback.start()
+            self.send_leaderboard()
 
     def on_message(self, message):
         print "{} received: {}".format(self.NAME, message)
@@ -237,6 +240,7 @@ class LivePricesWebSocket(tornado.websocket.WebSocketHandler):
             self.callback = tornado.ioloop.PeriodicCallback(self.send_prices,
                                                             5000)
             self.callback.start()
+            self.send_prices()
 
     def on_message(self, message):
         print "{} received: {}".format(self.NAME, message)
