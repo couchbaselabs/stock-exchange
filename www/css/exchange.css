@@ -129,6 +129,6 @@ color: white;
 .table > tbody > tr > td > button {
 font-size: 18px
 }
-.table > tbody > tr > th {
-font-size: 22px
+.table > thead > tr > th {
+font-size: 18px
 }
