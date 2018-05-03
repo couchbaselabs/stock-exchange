@@ -122,3 +122,13 @@ color: white;
     border-color: yellow;
     border-radius: 25px;
 }
+.table > tbody > tr > td {
+     vertical-align: middle;
+     font-size: 18px
+}
+.table > tbody > tr > td > button {
+font-size: 18px
+}
+.table > tbody > tr > th {
+font-size: 22px
+}
