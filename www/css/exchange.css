@@ -64,12 +64,13 @@
 .search-btn{
     background: transparent;
     border: none;
+    font-size: 30px;
 }
 
 .search-input{
     height: 100%;
     float: left;
-    width: calc(100% - 41px);
+    width: calc(100% - 50px);
     background: linear-gradient(to bottom, rgba(51,51,51,1) 0%,rgba(32,26,25,1) 100%);
     border: none;
     color: #FFF;
