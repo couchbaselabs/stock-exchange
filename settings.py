@@ -1,9 +1,9 @@
 BUCKET_NAME = "cbse"
 STOCKS_FILE="nasdaq.csv"
 # The list of nodes to use as 'AWS' nodes
-AWS_NODES = ["10.142.180.101", "10.142.180.102"]
-# The list of nodes to use as 'Azure' nodes
-AZURE_NODES = [""]
+CLUSTER_NODES = ["10.142.180.101", "10.142.180.102"]
+# Exposed web port e.g. 8888 or 80
+WEB_PORT = 8888
 # Whether the current cluster is on AWS
 AWS = True
 # Username of the data user

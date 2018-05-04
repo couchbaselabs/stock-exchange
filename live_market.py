@@ -9,10 +9,7 @@ import time
 bucket_name = settings.BUCKET_NAME
 user = settings.USERNAME
 password = settings.PASSWORD
-if settings.AWS:
-    node = settings.AWS_NODES[0]
-else:
-    node = settings.AZURE_NODES[0]
+node = settings.CLUSTER_NODES[0]
 
 SDK_CLIENT = Bucket('couchbase://{0}/{1}'.format(node, bucket_name),
                     username=user, password=password)

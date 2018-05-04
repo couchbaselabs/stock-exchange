@@ -27,11 +27,7 @@ socket_list = []
 bucket_name = settings.BUCKET_NAME
 user = settings.USERNAME
 password = settings.PASSWORD
-
-if settings.AWS:
-    node = settings.AWS_NODES[0]
-else:
-    node = settings.AZURE_NODES[0]
+node = settings.CLUSTER_NODES[0]
 
 bucket = Bucket('couchbase://{0}/{1}'.format(node, bucket_name),
                 username=user, password=password)
@@ -398,9 +394,10 @@ def make_app():
 
 
 if __name__ == "__main__":
-    print "Running at http://localhost:8888"
+    port = settings.WEB_PORT
+    print "Running at http://localhost:{}".format(port)
     app = make_app()
-    app.listen(8888)
+    app.listen(port)
 
     tornado.ioloop.IOLoop.current().spawn_callback(update_cb_status)
     tornado.ioloop.IOLoop.current().spawn_callback(update_price_data)

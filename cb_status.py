@@ -8,11 +8,7 @@ from txcouchbase.bucket import Bucket
 
 import settings
 
-if settings.AWS:
-    BOOTSTRAP_NODES = settings.AWS_NODES
-else:
-    BOOTSTRAP_NODES = settings.AZURE_NODES
-
+BOOTSTRAP_NODES = settings.CLUSTER_NODES
 BUCKET_URL = "/pools/default/buckets"
 NODE_URL = "/pools/default/serverGroups"
 INDEX_URL = "/indexStatus"

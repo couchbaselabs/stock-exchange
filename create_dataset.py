@@ -8,10 +8,7 @@ import csv
 bucket_name = settings.BUCKET_NAME
 user = settings.USERNAME
 password = settings.PASSWORD
-if settings.AWS:
-    node = settings.AWS_NODES[0]
-else:
-    node = settings.AZURE_NODES[0]
+node = settings.CLUSTER_NODES[0]
 
 print("/opt/couchbase/bin/cbimport json -c {} -u {} -p {} --bucket {} --dataset file://stocks.json --generate-key 'stock:%symbol%' -f lines".format(node, user, password, bucket_name))
 exit(0)
