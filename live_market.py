@@ -25,6 +25,8 @@ while True:
         stock_key = "stock:"+ (row['symbol'])
         # perturb the price and round it to 2 decimal places
         price_multiplier = random.normalvariate(1, 0.025)
+        if row['symbol'] == "CBSE" and price_multiplier < 1:
+            price_multiplier = 1
         new_price = float(row['price']) * price_multiplier
         new_price = round (new_price, 2)
         SDK_CLIENT.mutate_in(stock_key,
