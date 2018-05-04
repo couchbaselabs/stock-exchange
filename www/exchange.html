@@ -50,7 +50,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <section class="content container-fluid" style="padding-top:0px;">
 
         <div class="bg-purple disabled row">
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <div class="input-group input-group-lg name-container" style="width:100%;">
                     <input id="name-box" class="form-control" placeholder="Username">
                 </div>
@@ -58,7 +58,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="col-md-2">
             <input class="btn bg-purple submit-btn" type="button" value="Submit">
         </div>
-        <div class="col-md-5 col-sm-6 col-8 col-offset-8 search-container" style="display:none;">
+        <div class="col-md-5 col-md-offset-1 search-container" style="display:none;">
             <input type="text" name="q" placeholder="Search Stocks" class="search-input">
             <button class="search-btn"><i class="fa fa-search"></i></button>
         </div>
@@ -67,7 +67,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <div class="row type-row justify-content-end" style="display:none;">
 		{% for i, x in enumerate(sectors) %}
-	    <div class="{% if i % 5 == 0 %} col-md-offset-1 {% end %} col-md-2 type-btn-col">
+	    <div class="col-md-3 type-btn-col">
                 <input class="btn btn-primary type-btn" data-toggle="button" type="button" value="{{ x }}">
             </div>
             {% end %}
