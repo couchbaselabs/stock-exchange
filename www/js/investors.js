@@ -17,10 +17,8 @@ $(document).ready(function(){
     for (i = 0; i < 5; i++){
       $('#top-row-'+i).find(".investor").text(msg['best'][i]['name']);
       $('#top-row-'+i).find(".portfolio_value").text('$' + msg['best'][i]['current_value'].toFixed(0));
-      $('#top-row-'+i).data("href","/people/" + msg['best'][i]['name']);
       $('#worst-row-'+(4-i)).find(".investor").text(msg['worst'][i]['name']);
       $('#worst-row-'+(4-i)).find(".portfolio_value").text('$' + msg['worst'][i]['current_value'].toFixed(0));
-      $('#worst-row-'+(4-i)).data("href","/people/" + msg['worst'][i]['name']);
     }
   };
 
