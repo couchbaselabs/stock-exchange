@@ -22,7 +22,13 @@ $(document).ready(function(){
       $('#worst-row-'+i).find(".symbol").text(msg['worst'][i]['symbol']);
       $('#worst-row-'+i).find(".starting").text(msg['worst'][i]['starting_price']);
       $('#worst-row-'+i).find(".price").text(msg['worst'][i]['price']);
-      $('#worst-row-'+i).find(".diff").text(msg['worst'][i]['price_diff'].toFixed(2) + "%");
+      price_diff = msg['worst'][i]['price_diff'].toFixed(2);
+      if (price_diff < 0)
+      {
+        $('#worst-row-'+i).find(".diff").removeClass("btn-success");
+        $('#worst-row-'+i).find(".diff").addClass("btn-danger");  
+      }
+      $('#worst-row-'+i).find(".diff").text(price_diff + "%");
     }
   };
 
