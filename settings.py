@@ -1,5 +1,5 @@
 BUCKET_NAME = "cbse"
-STOCKS_FILE="nasdaq.csv"
+STOCKS_FILE="stocks.json"
 # The list of nodes to use as 'AWS' nodes
 CLUSTER_NODES = ["10.142.180.101", "10.142.180.102"]
 # Exposed web port e.g. 8888 or 80
