@@ -182,7 +182,7 @@
 {"sector":"Consumer Non-Durables","starting_price":14.18,"symbol":"CROX","company":"Crocs, Inc.","price":14.18},
 {"sector":"Consumer Services","starting_price":33.7,"symbol":"MMYT","company":"MakeMyTrip Limited","price":33.7},
 {"sector":"Finance","starting_price":15.8,"symbol":"NSEC","company":"National Security Group, Inc.","price":15.8},
-{"sector":"Energy","starting_price":4.22,"symbol":"UPL","company":"Ultra Petroleum Corp.","price":4.22},
+{"sector":"Miscellaneous","starting_price":4.22,"symbol":"UPL","company":"Ultra Petroleum Corp.","price":4.22},
 {"sector":"Finance","starting_price":33.52,"symbol":"TRMK","company":"Trustmark Corporation","price":33.52},
 {"sector":"Technology","starting_price":82.15,"symbol":"EBIX","company":"Ebix, Inc.","price":82.15},
 {"sector":"Finance","starting_price":18.37,"symbol":"PROV","company":"Provident Financial Holdings, Inc.","price":18.37},
