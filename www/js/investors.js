@@ -28,9 +28,3 @@ $(document).ready(function(){
       // setTimeout(function(){ExchangePageWebSockets()}, 5000);
   };
 });
-
-jQuery(document).ready(function($) {
-    $(".clickable-row").click(function() {
-        window.location = $(this).data("href");
-    });
-});
