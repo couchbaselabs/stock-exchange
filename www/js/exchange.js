@@ -31,12 +31,20 @@ $( ".submit-btn" ).click(function() {
 $( ".btn-product" ).click(function (event){
     if (currently_selected.length >= 5) {
         if (!$(this).hasClass("active")) {
-
             alert("Cannot select more than 5 items.");
             event.stopPropagation();
-        }
+        } else {
+             var i = currently_selected.indexOf($(this).val());
+             currently_selected.splice(i, 1);
+         }
+
     } else {
-        currently_selected.push($(this).val())
+         if (!$(this).hasClass("active")) {
+             currently_selected.push($(this).val());
+         } else {
+             var i = currently_selected.indexOf($(this).val());
+             currently_selected.splice(i, 1);
+         }
     }
 });
 
@@ -196,7 +204,7 @@ window.onload = function ExchangePageWebSockets(){
         };
 
 
-      
+
     }
     else
     {
