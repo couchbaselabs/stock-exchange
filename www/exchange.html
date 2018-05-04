@@ -68,7 +68,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="row type-row justify-content-end" style="display:none;">
 		{% for i, x in enumerate(sectors) %}
             {% for x in sectors %}
-	    <div class="{% if i % 5 in (0, 4) %} offset-md-1 {% end %} col-md-2 type-btn-col">
+	    <div class="{% if i % 5 == 0 %} col-md-offset-1 {% end %} col-md-2 type-btn-col">
                 <input class="btn btn-primary type-btn" data-toggle="button" type="button" value="{{ x }}">
             </div>
             {% end %}
