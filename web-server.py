@@ -49,11 +49,16 @@ class ExchangeHandler(tornado.web.RequestHandler):
         sectors = []
         for row in r:
             sectors.append(row['sector'])
-
         sectors = sorted(sectors)
-        keys = stocks.keys()
-        first_keys = keys[:20]
-        rest = keys[20:]
+
+        first_keys = []
+        rest = []
+        for stock, stock_doc in stocks.iteritems():
+            if stock_doc.value['priority'] == 1:
+                first_keys.append(stock)
+            else:
+                rest.append(stock)
+        random.shuffle(first_keys)
         random.shuffle(rest)
         keys = first_keys + rest
         self.render("www/exchange.html", stocks=stocks, keys=keys, sectors=sectors)

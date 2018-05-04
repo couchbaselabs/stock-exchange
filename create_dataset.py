@@ -46,6 +46,8 @@ def add_stocks():
     for stock_doc in stocks_dict:
         if stock_count >= settings.NUM_STOCKS:
             break
+        if 'priority' not in stock_doc:
+            stock_doc['priority'] = 2
         stock_key = "stock:" + stock_doc['symbol']
         symbol_list.append(stock_key)
         SDK_CLIENT.upsert(stock_key, stock_doc)

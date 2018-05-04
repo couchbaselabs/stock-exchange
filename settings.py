@@ -22,4 +22,4 @@ VIEW_NAME = "by_timestamp"
 # Single field called "symbols" which is a list containing all product keys.
 PRODUCT_LIST="stock_list"
 # How many stocks should we use?
-NUM_STOCKS=20
+NUM_STOCKS=200
