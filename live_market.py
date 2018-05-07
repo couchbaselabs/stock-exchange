@@ -32,4 +32,4 @@ while True:
         SDK_CLIENT.mutate_in(stock_key,
                             SD.upsert('price', new_price))
 
-    time.sleep(1)
+    time.sleep(8)
