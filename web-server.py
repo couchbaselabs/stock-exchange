@@ -87,7 +87,7 @@ class GeoLeaderboardHandler(tornado.web.RequestHandler):
             if geo == "Unknown":
                 where_clause = "where doc.`type`=='order' AND doc.`geo` IS MISSING"
             else:
-                where_clause = "where doc.`geo` == '{}'".format(geo)
+                where_clause = "where doc.`type`=='order' AND doc.`geo` == '{}'".format(geo)
             query_res = yield bucket.n1qlQueryAll(base_query.format(bucket_name, where_clause))
             investments = []
             grand_total = 0
