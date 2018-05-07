@@ -83,8 +83,8 @@ class GeoLeaderboardHandler(tornado.web.RequestHandler):
         {} \
         ORDER BY portfolio.symbol"
         geo_data = {}
-        for geo in ["USA", "EU", "n/a"]:
-            if geo == "n/a":
+        for geo in ["USA", "EU", "Unknown"]:
+            if geo == "Unknown":
                 where_clause = "where doc.`type`=='order' AND doc.`geo` IS MISSING"
             else:
                 where_clause = "where doc.`geo` == '{}'".format(geo)
@@ -92,12 +92,13 @@ class GeoLeaderboardHandler(tornado.web.RequestHandler):
             investments = []
             grand_total = 0
             for row in query_res:
-                profit = (row['quantity'] * price_data[row['symbol']]['price'] ) - 100
+                profit = (row['quantity'] * price_data[row['symbol']]['price']) - 100
                 row['profit'] = round(profit,2)
                 row['quantity'] = round(row['quantity'],2)
                 grand_total += profit
                 investments.append(row)
-            geo_data[geo] = {"total": round(grand_total,2), "investments": investments}
+            if investments:
+                geo_data[geo] = {"total": round(grand_total,2), "investments": investments}
         self.render("www/geo_leaderboard.html", prices=price_data, geo_data=geo_data)
 
 class ClusterVisHandler(tornado.web.RequestHandler):

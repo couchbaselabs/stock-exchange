@@ -80,7 +80,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                <td class="text-right quantity" scope="row">{{ entry['quantity'] }}</td>
                <td class="text-right purchase_price" scope="row">{{ entry['purchase_price'] }}</td></td>
                <td class="text-right current_price" scope="row"> {{ prices[entry['symbol']]['price'] }}</td>
-               <td><button  type="button" class="btn btn-success diff">${{ prices[entry['symbol']]['change'] }}</button></td>
+               <td class="text-center"><button  type="button" class="btn btn-success diff">${{ prices[entry['symbol']]['change'] }}</button></td>
             </tr>
                     {% end %}
             </table>
