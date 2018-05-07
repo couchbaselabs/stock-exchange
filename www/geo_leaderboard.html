@@ -51,17 +51,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main content -->
         <!-- Main content -->
     <section class="content container-fluid">
-     <div class="row">
           {% set i = 0 %}
           {% for geo in sorted(geo_data.keys()) %}
           {% set i = i + 1 %}
         <div class="col-md-6">
-          <div class="bg-purple disabled small-box">
-            <div class="inner">
-              <h3>{{geo}} : {{geo_data[geo]['total']}}</h3>
+           <div class="box box-solid box-default">
+              <div class="box-header with-border">
+                  <h3><b>{{geo}} : {{geo_data[geo]['total']}}</b></h3>
             </div>
-          </div>
-
+            <div class="box-body">
             <table id="{{geo}}-table" class="table table-hover table-dark">
                <thead>
                 <tr>
@@ -82,17 +80,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                <td class="text-right current_price" scope="row"> {{ prices[entry['symbol']]['price'] }}</td>
                <td class="text-center"><button  type="button" class="btn btn-success diff">${{ prices[entry['symbol']]['change'] }}</button></td>
             </tr>
-                    {% end %}
+            {% end %}
             </table>
         </div><!-- Col-->
-
-        {% if i == 2 %}
-        </div> <!-- Row-->
-         <div class="row">
+                </div>
+     </div>
         {% end %}
-          
-        {% end %}
-      </div> <!-- Row-->
     </section>  <!-- /.content -->
   </div>  <!-- /.content-wrapper -->
 
