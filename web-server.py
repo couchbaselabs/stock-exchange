@@ -139,7 +139,7 @@ class LiveOrdersWebSocket(tornado.websocket.WebSocketHandler):
             socket_list.append(self)
             print("{} WebSocket opened").format(self.NAME)
             self.callback = tornado.ioloop.PeriodicCallback(self.send_orders,
-                                                            5000)
+                                                            2000)
             self.callback.start()
             self.send_orders()
 
@@ -163,7 +163,7 @@ class LiveOrdersWebSocket(tornado.websocket.WebSocketHandler):
             self.write_message(msg)
             if display_order['name'] == 'Couchbase Demo Phone' and self.NEXT_CUSTOMER == 0:
                 self.callback.stop()
-                yield tornado.gen.sleep(5)
+                yield tornado.gen.sleep(2)
                 self.callback.start()
 
 class StockLeaderboardWebSocket(tornado.websocket.WebSocketHandler):
@@ -353,15 +353,14 @@ def update_price_data():
         for row in results:
             price_change = round(((float(row['price']) - float(row['starting_price'])) * 100) / float(row['starting_price']) , 2)
             price_data[row['symbol']] = {'price': float(row['price']), 'change': price_change}
-
-        res = yield bucket.queryAll(settings.DDOC_NAME, settings.VIEW_NAME,
-                                    include_docs=True, descending=False, limit=50,
-                                    startkey=LATEST_TS, stale=False)
+        query = "SELECT * FROM {} WHERE type='order' and ts > {} ORDER BY ts ASC LIMIT 50;".format(bucket_name, LATEST_TS)
+        res = yield bucket.n1qlQueryAll(query)
         new_order = False
         for order in res:
-            portfolio_cache.append(order.doc.value)
-            LATEST_TS = order.doc.value['ts'] + 1
-            print "New Order: ", order.key, order.doc.value['name']
+            order = order['cbse']
+            portfolio_cache.append(order)
+            LATEST_TS = int(order['ts'])
+            print "New Order: ", order['name'], order['ts']
 
         for portfolio in portfolio_cache:
             portfolio_value = 0
