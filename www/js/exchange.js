@@ -1,5 +1,5 @@
 var table = null;
-var filtered_keys = [];
+var filtered_keys = null;
 var currently_selected = [];
 
 $( ".submit-btn" ).click(function() {
@@ -79,9 +79,9 @@ if (hasTouch()) { // remove all :hover stylesheets
 
 $(".search-btn").click(function() {
     if($('.search-input').val() === ""){
-        clear_types();
-        filtered_keys = [];
+        filtered_keys = null;
         table.draw();
+        clear_types();
         return;
     }
     clear_types();
@@ -98,15 +98,22 @@ $(".search-btn").click(function() {
     });
 });
 
-$(".type-btn").click(function(){
-    $('.search-input').val('');
-
-    clear_types();
-    $.get("/filter?type=" + $(this).val(), function (data){
-        filtered_keys = data['keys'];
+$(".type-btn").click(function(event){
+    if ($(this).hasClass("active")){
+        console.log("I tried");
+        filtered_keys = null;
+        clear_types();
+        event.stopPropagation();
         table.draw();
-    });
+    } else {
+        $('.search-input').val('');
 
+        clear_types();
+        $.get("/filter?type=" + $(this).val(), function (data) {
+            filtered_keys = data['keys'];
+            table.draw();
+        });
+    }
 });
 
 $(".type-row").hover(function(){
@@ -142,9 +149,9 @@ $(document).ready(function(){
 $(document).ready(function(){
     $('.search-input').on('input', function(e){
         if($('.search-input').val() === ""){
-        clear_types();
-        filtered_keys = [];
-        table.draw();
+            clear_types();
+            filtered_keys = null;
+            table.draw();
         }
     });
 });
@@ -162,7 +169,7 @@ $(document).ready(function() {
         function( settings, data, dataIndex ) {
             var button = data[0];
             button = "stock:" + $.trim(button);
-            return (filtered_keys.indexOf(button) !== -1 || filtered_keys.length === 0);
+            return (filtered_keys === null || filtered_keys.indexOf(button) !== -1);
     });
 } );
 
