@@ -54,11 +54,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <section class="content container-fluid">
      <div class="row">
         <div class="col-md-6">
-          <div class="bg-purple disabled small-box">
-            <div class="inner">
+            <div class="box box-solid box-success">
+              <div class="box-header with-border">
               <h3>Best</h3>
             </div>
-          </div>
+            <div class="box-body">
             <table class="table table-striped table-dark">
                <thead>
                 <tr>
@@ -73,17 +73,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                <td class="text-left symbol" scope="row">-</td>
                <td class="text-left starting" scope="row">-</td>
                <td class="text-right price" scope="row">-</td>
-               <td><button  type="button" class="btn btn-success diff">+0%</button></td>
+               <td class="text-center"><button  type="button" class="btn btn-success diff">+0%</button></td>
             </tr>
             {% end %}
             </table>
+            </div>
         </div>
-               <div class="col-md-6">
-            <div class="bg-purple active small-box">
-            <div class="inner">
+        </div>
+         <div class="col-md-6">
+            <div class="box box-solid box-danger">
+              <div class="box-header with-border">
               <h3>Worst</h3>
             </div>
-          </div>
+                   <div class="box-body">
             <table class="table table-striped table-dark">
                <thead>
                 <tr>
@@ -98,10 +100,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                <td class="text-left symbol" scope="row">-</td>
                <td class="text-left starting" scope="row">-</td>
                <td class="text-right price" scope="row">-</td>
-               <td><button  type="button" class="btn btn-success diff">+0%</button></td>
+               <td class="text-center"><button  type="button" class="btn btn-success diff">+0%</button></td>
             </tr>
             {% end %}
             </table>
+                   </div>
           </div>
       </div>
     </section>  <!-- /.content -->
