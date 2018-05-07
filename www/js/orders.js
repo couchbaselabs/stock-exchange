@@ -52,5 +52,5 @@ window.onload = function N1QLSocket(){
 $(document).ready(function(){
       $('.multiple-items').slick({
           slidesToShow: 5,
-          slidesToScroll: 1   });
+          slidesToScroll: 1});
     });

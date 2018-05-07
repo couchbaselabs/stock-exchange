@@ -59,15 +59,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <section class="content container-fluid">
 
       <div class="slider multiple-items">
-        <div class="order-card front purple-gradient" id="master-slide">
+        <div class="box box-solid box-primary"  id="master-slide" style="padding: 5px;">
+          <div class="box-header with-border">
           <h3 id="slide-1" class="text-center">Ready For Investors!</h3>
+          </div>
+          <div class="box-body">
             <table class="table table-hover table-dark">
                <thead>
                 <tr>
                   <th scope="col">Stock</th>
                   <th scope="col" class="text-left">Buy</th>
                   <th scope="col" class="text-right">Current</th>
-                  <th scope="col" class="text-center">+/-</th>
                 </tr>
               </thead>
             {% for i in range(5) %}
@@ -75,10 +77,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                <td class="text-left symbol" scope="row">-</td>
                <td class="text-left purchase" scope="row">-</td>
                <td class="text-right price" scope="row">-</td>
-               <td><button  type="button" class="btn btn-success">+0%</button></td>
             </tr>
             {% end %}
             </table>
+          </div>
         </div>
       </div>
 
