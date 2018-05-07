@@ -97,7 +97,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </div> <!-- /.content-wrapper -->
 {% include 'footer.html' %}
 
-
+<!-- Modal -->
+<div class="modal fade" id="url-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+      <div class="modal-body">
+    <span style="font-size:9em;">bit.ly/cbNY2018</span>
+      </div>
+  </div>
+</div>
+</div>
 <!-- ./wrapper -->
 
 <!-- REQUIRED JS SCRIPTS -->
@@ -113,6 +122,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="/external/AdminLTE/js/adminlte.min.js"></script>
 <script src="js/exchange.js"></script>
 <script src="js/live_prices.js"></script>
-<script></script>
+  <script>$('#url-modal').on('shown.bs.modal', function () {
+  $('#myInput').focus()
+})</script>
 </body>
 </html>
