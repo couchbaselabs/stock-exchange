@@ -232,7 +232,6 @@ class InvestorLeaderboardWebSocket(tornado.websocket.WebSocketHandler):
         self.write_message({"best": best_performers, "worst": worst_performers})
 
 
-
 class LivePricesWebSocket(tornado.websocket.WebSocketHandler):
     def open(self):
         self.NAME = "Live Prices"
@@ -245,7 +244,7 @@ class LivePricesWebSocket(tornado.websocket.WebSocketHandler):
             self.send_prices()
 
     def on_message(self, message):
-        print "{} received: {}".format(self.NAME, message)
+        self.write_message(price_data)
 
     def on_close(self):
         print("{} WebSocket closed").format(self.NAME)

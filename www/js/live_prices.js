@@ -1,14 +1,14 @@
 // Open a web socket to the server to receive live price updates
 // On recipt of an update, search the page for any instances of the symbol
 // And update the price accordingly.
+var prices_ws = null;
+
 $(document).ready(function(){
-  var prices_ws = new WebSocket("ws://" + location.host + "/liveprices");
+  prices_ws = new WebSocket("ws://" + location.host + "/liveprices");
 
   prices_ws.onopen = function() 
   {
     console.log("Live Prices started");
-    // Web Socket is connected, send data using send()
-    prices_ws.send("Live Prices Socket Connected");
   };
 
   prices_ws.onmessage = function (evt)

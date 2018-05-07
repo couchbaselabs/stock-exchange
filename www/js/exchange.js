@@ -164,6 +164,9 @@ $(document).ready(function() {
                  $(this).removeClass("active");
              }
          });
+         if (prices_ws) {
+             prices_ws.send("foo");
+         }
     }});
     $.fn.dataTable.ext.search.push(
         function( settings, data, dataIndex ) {
