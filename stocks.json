@@ -1,7 +1,7 @@
 [{"sector":"Capital Goods","starting_price":327.17,"symbol":"TSLA","company":"Tesla, Inc. ","price":327.17,"priority": 1},
 {"sector":"Technology","starting_price":96.54,"symbol":"MSFT","company":"Microsoft Corporation","price":96.54, "priority": 1},
 {"sector":"Technology","starting_price":179.98,"symbol":"AAPL","company":"Apple Inc.","price":179.98, "priority": 1},
-{"sector":"Technology","starting_price":50.0,"symbol":"CBSE","company":"Couchbase Inc.","price":50.0, "priority": 1},
+{"sector":"Technology","starting_price":50.0,"symbol":"CBSE","company":"Base Corp Inc.","price":50.0, "priority": 1},
 {"sector":"Technology","starting_price":1160.04,"symbol":"GOOG","company":"Alphabet Inc.","price":1160.04, "priority": 1},
 {"sector":"Consumer","starting_price":187.86,"symbol":"COKE","company":"Coca-Cola Bottling Co. Consolidated","price":187.86, "priority": 1},
 {"sector":"Consumer","starting_price":58.46,"symbol":"SBUX","company":"Starbucks Corporation","price":58.46, "priority": 1},
