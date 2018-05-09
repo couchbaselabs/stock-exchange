@@ -64,8 +64,8 @@ hr {
 }
 
 .trouble-node{
-    border-color: #C1101F;
-    border-width: 10px;
+    border-color: rgba(179,108,219,1);
+    border-width: 3px;
     border-style : solid ;
 }
 
