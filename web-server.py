@@ -31,6 +31,8 @@ node = settings.CLUSTER_NODES[0]
 
 bucket = Bucket('couchbase://{0}/{1}'.format(node, bucket_name),
                 username=user, password=password)
+bucket.n1ql_timeout = 3
+
 fts_nodes = None
 fts_enabled = False
 nodes = []
@@ -272,7 +274,7 @@ class SubmitHandler(tornado.web.RequestHandler):
         data['type'] = "order"
         order = []
         for i in range (0,5):
-            stock = data['order'][i];
+            stock = data['order'][i]
             purchase_price = float(price_data[stock[6:]]['price'])
             quantity = 100.0 / purchase_price
             d = {'symbol': stock[6:], 'purchase_price': purchase_price, 'quantity': quantity }
@@ -346,18 +348,25 @@ def update_price_data():
     LATEST_TS = 0
     while True:
         call_time = time.time()
-        results = yield bucket.n1qlQueryAll(
-        'SELECT symbol,price,starting_price FROM {} WHERE symbol IS NOT MISSING AND price IS NOT MISSING'.format(bucket_name, ))
+        try:
+            results = yield bucket.n1qlQueryAll(
+            'SELECT symbol,price,starting_price FROM {} WHERE symbol IS NOT MISSING AND price IS NOT MISSING'.format(bucket_name, ))
+        except Exception:
+            continue
 
         final_results = {}
         for row in results:
             price_change = round(((float(row['price']) - float(row['starting_price'])) * 100) / float(row['starting_price']) , 2)
             price_data[row['symbol']] = {'price': float(row['price']), 'change': price_change}
         query = "SELECT * FROM {} WHERE type='order' and ts > {} ORDER BY ts ASC LIMIT 50;".format(bucket_name, LATEST_TS)
-        res = yield bucket.n1qlQueryAll(query)
+        try:
+            res = yield bucket.n1qlQueryAll(query)
+        except Exception:
+            continue
+
         new_order = False
         for order in res:
-            order = order['cbse']
+            order = order[bucket_name]
             portfolio_cache.append(order)
             LATEST_TS = int(order['ts'])
             print "New Order: ", order['name'], order['ts']
