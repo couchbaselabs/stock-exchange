@@ -1,4 +1,5 @@
-var slideIndex = 0
+var slideIndex = 0;
+var master = $('#master-slide');
 
 window.onload = function N1QLSocket(){
     if ("WebSocket" in window) {
@@ -12,8 +13,7 @@ window.onload = function N1QLSocket(){
         ws.onmessage = function (evt)
         {
           //  $(document).find("td").text("HEY HEY");
-            $('#master-slide').hide();
-            var new_elem = $('#master-slide').clone();
+            var new_elem = master.clone();
             new_elem.show();
             var msg = JSON.parse(evt.data);
             var order = msg['order'];
@@ -29,8 +29,13 @@ window.onload = function N1QLSocket(){
                 row_elem.find(".price").addClass(symbol_name + '-price');
             }
             $(new_elem).find("h3").text(msg['name']);
-            $('.multiple-items').slick('slickAdd',new_elem);
+            $('.multiple-items').slick('slickAdd', new_elem);
+            if (master.attr('id') === 'master-slide'){
+                master = new_elem;
+                $('.multiple-items').slick('slickRemove', 0);
+            }
             $('.multiple-items').slick('slickNext');
+
         };
 
         ws.onclose = function()
