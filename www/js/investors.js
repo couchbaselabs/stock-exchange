@@ -16,9 +16,9 @@ $(document).ready(function(){
     var msg = JSON.parse(evt.data);
     for (i = 0; i < 5; i++){
       $('#top-row-'+i).find(".investor").text(msg['best'][i]['name']);
-      $('#top-row-'+i).find(".portfolio_value").text('$' + msg['best'][i]['current_value'].toFixed(0));
+      $('#top-row-'+i).find(".portfolio_value").text('£' + msg['best'][i]['current_value'].toFixed(0));
       $('#worst-row-'+(4-i)).find(".investor").text(msg['worst'][i]['name']);
-      $('#worst-row-'+(4-i)).find(".portfolio_value").text('$' + msg['worst'][i]['current_value'].toFixed(0));
+      $('#worst-row-'+(4-i)).find(".portfolio_value").text('£' + msg['worst'][i]['current_value'].toFixed(0));
     }
   };
 

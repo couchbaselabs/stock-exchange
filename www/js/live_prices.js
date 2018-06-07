@@ -33,7 +33,7 @@ $(document).ready(function(){
             $(btn_elem).addClass("btn-danger");  
         }
         $(btn_elem).text(change + "%");
-        $(price_elem).text('$'+new_price);
+        $(price_elem).text('£'+new_price);
       }
     }
   };

@@ -25,7 +25,7 @@ window.onload = function N1QLSocket(){
                 symbol_name = msg['order'][i]['symbol'];
                 purchase_price = msg['order'][i]['purchase_price'];
                 row_elem.find(".symbol").text(symbol_name);
-                row_elem.find(".purchase").text('$'+purchase_price);
+                row_elem.find(".purchase").text('£'+purchase_price);
                 row_elem.find(".price").addClass(symbol_name + '-price');
             }
             $(new_elem).find("h3").text(msg['name']);
