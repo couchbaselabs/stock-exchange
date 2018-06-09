@@ -20,7 +20,7 @@ window.onload = function NodeStatusSocket(){
     if ("WebSocket" in window) {
         // Let us open a web socket
         var ws = new WebSocket("ws://" + location.host + "/nodestatus");
-
+        LIVE_PARTICLES = 400;
         ws.onopen = function() {
             // Web Socket is connected, send data using send()
             ws.send("Node Status Connected");
@@ -35,14 +35,14 @@ window.onload = function NodeStatusSocket(){
                 node_elem = "#node" + (i+1);
                 if (node['status'] == "out"){
                     $(node_elem).hide();
-                    if (i == 2)
+                    if (i == 0)
                         MAN_DOWN=false;
                 }
                 else if (node['status'] == "trouble"){
                     $(node_elem).addClass('trouble-node');
                     $(node_elem).css("background-image", "url(img/trouble_server_icon.png)");
                     $(node_elem).show();
-                    if (i == 2) {
+                    if (i == 0) {
                         setAlpha(node_elem,0);
                         console.log("man down")
                         MAN_DOWN = true;
@@ -50,7 +50,7 @@ window.onload = function NodeStatusSocket(){
                 }
                 else if (node['status'] == "dormant"){
                     $(node_elem).show();
-                    if (i == 2) {
+                    if (i == 0) {
                         setAlpha(node_elem,0);
                         $(node_elem).removeClass('trouble-node');
                         $(node_elem).css("background-image", "url(img/failed_server_icon.png)");
@@ -60,7 +60,7 @@ window.onload = function NodeStatusSocket(){
                 else {
                     setAlpha(node_elem,1);
                     $(node_elem).show();
-                    if (i == 2){
+                    if (i == 0){
                         console.log("back once again");
                         $(node_elem).removeClass('trouble-node');
                         $(node_elem).css("background-image", "url(img/server_icon.png)");
@@ -69,7 +69,7 @@ window.onload = function NodeStatusSocket(){
                 }
                 total_ops += node['ops'];
             }
-            LIVE_PARTICLES = total_ops;
+            LIVE_PARTICLES = Math.floor(total_ops/3.0);
             if (msg['xdcr']){
                 $('.azure').show();
             }
@@ -80,7 +80,7 @@ window.onload = function NodeStatusSocket(){
 
         ws.onclose = function()
         {
-            LIVE_PARTICLES = 0;
+            LIVE_PARTICLES = 400;
             for (i= 0; i < 5; i++){
                 node_elem = "#node" + (i+1);
                 setAlpha(node_elem,0.25);
