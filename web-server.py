@@ -191,10 +191,13 @@ class StockLeaderboardWebSocket(tornado.websocket.WebSocketHandler):
     def send_leaderboard(self):
         base_query = 'SELECT price_diff,symbol,starting_price,price from {} \
          LET price_diff = 100 * ((price - starting_price))/starting_price \
-         WHERE starting_price is not MISSING \
+         WHERE symbol is not MISSING \
          ORDER BY price_diff {} \
          LIMIT 10'
-        best_results = yield bucket.n1qlQueryAll(base_query.format(bucket_name, "DESC"))
+        try:
+            best_results = yield bucket.n1qlQueryAll(base_query.format(bucket_name, "DESC"))
+        except Exception:
+            return
         good_performers = []
         for row in best_results:
             good_performers.append(row)
@@ -362,6 +365,7 @@ def update_price_data():
         try:
             res = yield bucket.n1qlQueryAll(query)
         except Exception:
+            tornado.gen.sleep(2)
             continue
 
         new_order = False
