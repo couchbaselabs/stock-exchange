@@ -15,11 +15,11 @@ $(document).ready(function(){
   {
     var msg = JSON.parse(evt.data);
     for (i = 0; i < 10; i++){
-      $('#top-row-'+i).find(".symbol").text(msg['best'][i]['symbol']);
+      $('#top-row-'+i).find(".company").text(msg['best'][i]['company']);
       $('#top-row-'+i).find(".starting").text(msg['best'][i]['starting_price']);
       $('#top-row-'+i).find(".price").text(msg['best'][i]['price']);
       $('#top-row-'+i).find(".diff").text(msg['best'][i]['price_diff'].toFixed(2) + "%");
-      $('#worst-row-'+i).find(".symbol").text(msg['worst'][i]['symbol']);
+      $('#worst-row-'+i).find(".company").text(msg['worst'][i]['company']);
       $('#worst-row-'+i).find(".starting").text(msg['worst'][i]['starting_price']);
       $('#worst-row-'+i).find(".price").text(msg['worst'][i]['price']);
       price_diff = msg['worst'][i]['price_diff'].toFixed(2);

@@ -189,7 +189,7 @@ class StockLeaderboardWebSocket(tornado.websocket.WebSocketHandler):
 
     @tornado.gen.coroutine
     def send_leaderboard(self):
-        base_query = 'SELECT price_diff,symbol,starting_price,price from {} \
+        base_query = 'SELECT price_diff,symbol,company,starting_price,price from {} \
          LET price_diff = 100 * ((price - starting_price))/starting_price \
          WHERE symbol is not MISSING \
          ORDER BY price_diff {} \
